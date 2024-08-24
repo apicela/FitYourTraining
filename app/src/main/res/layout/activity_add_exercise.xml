@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:orientation="vertical"
+    android:theme="@style/Theme.ApicelaTraining"
+    tools:context=".ui.activitys.AddExerciseActivity">
+
+    <LinearLayout
+        android:id="@+id/backLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="63dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="-36dp"
+            android:layout_marginTop="-1.5dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Voltar"
+            android:textColor="@color/main_color"
+            android:textSize="14sp"></TextView>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/newTrainingButtonLayout"
+        app:layout_constraintTop_toBottomOf="@+id/backLinearLayout"
+
+        />
+
+
+    <LinearLayout
+        android:id="@+id/newTrainingButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/add_exercise_to_workout"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/semi_black_button"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
+            android:text="Adicionar exercícios (0)"
+            android:textColor="@color/main_color" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

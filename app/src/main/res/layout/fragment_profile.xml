@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.activitys.HomeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/buttonDecrementDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_left_arrow"
+            android:tint="@color/white" />
+
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="14/07/2024"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/buttonIncrementDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_right_arrow"
+            android:tint="@color/white" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editTextObservation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/super_light_black"
+        android:gravity="top"
+        android:hint="Digite sua observação aqui"
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <!-- Botão para salvar -->
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/semi_black_button"
+        android:padding="12dp"
+        android:text="Salvar"
+        android:textSize="16sp" />
+
+</LinearLayout>

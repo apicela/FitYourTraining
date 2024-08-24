@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/accent_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/black_dialog"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="Data"
+            android:textColor="@color/main_color"
+            android:textColorHint="@color/main_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Minutos:"
+                android:textAlignment="center"
+                android:textColor="@color/main_color"
+                android:textSize="25dp" />
+
+            <EditText
+                android:id="@+id/editTextMinutes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:hint="Minutos"
+                android:inputType="numberDecimal"
+                android:textColor="@color/main_color"
+                android:textColorHint="@color/main_color" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonConfirmar"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/yellow_bordered_button"
+            android:text="Confirmar"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/buttonCancelar"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/yellow_bordered_button"
+            android:text="Cancelar"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</LinearLayout>

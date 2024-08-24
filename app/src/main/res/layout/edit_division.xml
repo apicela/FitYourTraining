@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/accent_color"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:text="EDITAR DIVISÃO"
+        android:textColor="@color/main_color"
+        android:textSize="35sp"></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/divisionNameText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/pedido_field"
+            android:hint="Nome da divisão"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/main_color"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/cliente_image"
+            android:layout_width="56dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="-56dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/light_black_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-17dp"
+            android:text="Divisão"
+            android:textColor="@color/main_color"></TextView>
+
+        <EditText
+            android:id="@+id/imageUrlText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="38dp"
+            android:background="@drawable/pedido_field"
+            android:hint="URL da imagem/GIF"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/main_color"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="87dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="-45dp"
+            android:src="@drawable/light_black_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="17dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-19dp"
+            android:text="Imagem/GIF"
+            android:textColor="@color/main_color"></TextView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonConfirmar"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginVertical="10dp"
+        android:background="@drawable/yellow_bordered_button"
+        android:text="Confirmar"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/buttonCancelar"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/yellow_bordered_button"
+        android:text="Cancelar"
+        android:textColor="@color/black" />
+
+</LinearLayout>

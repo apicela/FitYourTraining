@@ -1,0 +1,124 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:orientation="vertical"
+    android:theme="@style/Theme.ApicelaTraining"
+    tools:context=".ui.activitys.CreateExercise">
+
+    <LinearLayout
+        android:id="@+id/backLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/content">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="63dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="-36dp"
+            android:layout_marginTop="-1.5dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Voltar"
+            android:textColor="@color/main_color"
+            android:textSize="14sp"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_cliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/backLinearLayout">
+
+
+        <EditText
+            android:id="@+id/workoutName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/pedido_field"
+            android:hint="Nome do treinamento"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/main_color"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="-56dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/light_black_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-17dp"
+            android:text="Treino"
+            android:textColor="@color/main_color"></TextView>
+
+
+        <EditText
+            android:id="@+id/descricaoText"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="43dp"
+            android:background="@drawable/pedido_field"
+            android:foregroundGravity="center"
+            android:hint="Descrição adicional"
+            android:paddingStart="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/main_color"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="74dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="-130dp"
+            android:src="@drawable/light_black_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="17dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-17dp"
+            android:text="Descrição"
+            android:textColor="@color/main_color"></TextView>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/concludeButton"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
+        android:background="@drawable/yellow_bordered_button"
+        android:text="ADICIONAR TREINAMENTO"
+        android:textColor="@color/main_background"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

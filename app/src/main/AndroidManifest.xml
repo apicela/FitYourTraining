@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".Apicela"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/fyt_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/fyt_icon"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ApicelaTraining"
+        tools:targetApi="31">
+        <activity
+            android:name=".ui.activitys.ExecutionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activitys.CreateDivision"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activitys.AddExerciseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activitys.DivisionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activitys.CreateWorkout"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activitys.CreateExercise"
+            android:exported="true"
+            android:label="@string/title_activity_create_exercise"
+            android:theme="@style/Theme.ApicelaTraining" />
+        <activity
+            android:name=".ui.activitys.ExerciseActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".CalendarFragment" -->
+        <!-- android:exported="false" -->
+        <!-- android:theme="@style/Theme.Training" /> -->
+        <activity
+            android:name=".ui.activitys.HomeActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ApicelaTraining">
+
+            <!-- Removendo android:label para ocultar o nome do ícone de lançamento -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
