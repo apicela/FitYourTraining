@@ -14,10 +14,10 @@ class ExerciseService() {
     val divisionService = DivisionService()
 
 
-    suspend fun removeExerciseFromDivision(division_id: String, exercise_id: String) {
-        var division = divisionService.getDivisionById(division_id)
-        val listOfExercises = division!!.listOfExercises as MutableList<Exercise>
-        listOfExercises.removeIf { it.id == exercise_id }
+    suspend fun removeExerciseFromDivision(divisionId: String, exerciseId: String) {
+        var division = divisionService.getDivisionById(divisionId)
+        val listOfExercises = division!!.listOfExercises as MutableList<String>
+        listOfExercises.removeIf { it == exerciseId }
         division.listOfExercises = listOfExercises
         divisionService.updateDivisionObject(division)
     }
@@ -62,14 +62,16 @@ class ExerciseService() {
         }
     }
 
-    suspend fun exerciseListToMap(division_id: String? = null): Map<String, List<Exercise>> {
-        val exerciseList = if (division_id == null) {
+    suspend fun exerciseListToMap(divisionId: String? = null): Map<String, List<Exercise>> {
+        val exerciseList = if (divisionId == null) {
             runBlocking { getAllExercises() }
         } else {
-            val division = divisionService.getDivisionById(division_id)
-            division?.listOfExercises
+            val division = divisionService.getDivisionById(divisionId)
+            division?.listOfExercises?.mapNotNull { exerciseId ->
+                db.exerciseDao().getExerciseById(exerciseId)
+            } ?: emptyList()
         }
-        if (exerciseList != null) {
+        if (exerciseList.isNotEmpty()) {
             return exerciseList.groupBy { exercise ->
                 exercise.muscleType.toString()
             }
@@ -77,10 +79,12 @@ class ExerciseService() {
         return emptyMap()
     }
 
-    public fun getExerciseListFromDivision(divisionId: String?): List<Exercise> {
+    public suspend fun getExerciseListFromDivision(divisionId: String?): List<Exercise> {
         val division = getDivision(divisionId)
         return if (division != null && division.listOfExercises.isNotEmpty()) {
-            division.listOfExercises
+            runBlocking{   division.listOfExercises.mapNotNull { id ->
+                db.exerciseDao().getExerciseById(id)
+            }}
         } else listOf()
     }
 

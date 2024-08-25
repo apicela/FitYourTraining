@@ -7,13 +7,13 @@ import com.google.gson.reflect.TypeToken
 
 class DivisionListConverter {
     @TypeConverter
-    fun fromString(value: String): List<Division> {
-        val listType = object : TypeToken<List<Division>>() {}.type
+    fun fromString(value: String?): List<String>? {
+        val listType = object : TypeToken<List<String>>() {}.type
         return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    fun fromList(list: List<Division>): String {
+    fun fromList(list: List<String>?): String? {
         return Gson().toJson(list)
     }
 }

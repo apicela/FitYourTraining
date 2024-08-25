@@ -38,10 +38,10 @@ class AddExerciseActivity : AppCompatActivity(), OnExerciseCheckedChangeListener
         Log.d("activity", "addExerciseActivity called")
         super.onCreate(savedInstanceState)
         bindViews()
-        val division_id = intent.getStringExtra("division_id")
+        val divisionId = intent.getStringExtra("division_id")
 
         CoroutineScope(Dispatchers.IO).launch {
-            division = exerciseService.getDivision(division_id)!!
+            division = exerciseService.getDivision(divisionId)!!
         }
         runBlocking {
             exerciseListMap = exerciseService.exerciseListToMap()
@@ -60,7 +60,7 @@ class AddExerciseActivity : AppCompatActivity(), OnExerciseCheckedChangeListener
         addExerciseToWorkoutButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 if (division != null) {
-                    val checkedItems = exerciseAdapter.getSelectedExercises()
+                    val checkedItems = exerciseAdapter.getSelectedExercises().map{it.id}
                     val newListExercises = (division.listOfExercises + checkedItems).distinct()
                     division.listOfExercises = newListExercises
                     exerciseService.divisionService.updateDivisionObject(division)

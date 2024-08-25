@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import com.apicela.training.ItemTouchHelperAdapter
 import com.apicela.training.R
@@ -18,16 +16,12 @@ import com.apicela.training.interfaces.ExerciseAdapterInterface
 import com.apicela.training.interfaces.OnExerciseCheckedChangeListener
 import com.apicela.training.models.Exercise
 import com.apicela.training.services.ExerciseService
-import com.apicela.training.ui.activitys.AddExerciseActivity
 import com.apicela.training.ui.activitys.CreateExercise
 import com.apicela.training.ui.activitys.ExecutionActivity
 import com.apicela.training.ui.activitys.ExerciseActivity
 import com.apicela.training.ui.utils.ImageHelper
-import com.apicela.training.utils.Codes
-import com.apicela.training.utils.Codes.Companion.REQUEST_CODE_CREATED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -44,8 +38,11 @@ class ExerciseItemAdapter(
 
     private var isEditing = false
     private val exerciseService = ExerciseService()
-    private var exerciseList: List<Exercise> = getExerciseList()
+    private var exerciseList: List<Exercise> = listOf()
 
+    init {
+        refreshData()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItemViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_exercise, parent, false)
         return ExerciseItemViewHolder(view)
@@ -113,8 +110,11 @@ class ExerciseItemAdapter(
             if (!isEditing && checkedItemCountChangedListener == null) {
                 itemView.setOnClickListener {
                     val intent = Intent(context, ExecutionActivity::class.java)
+                    Log.d("ExerciseItemAdapter", exercise.toString())
                     intent.putExtra("exercise_id", exercise.id)
-                    intent.putExtra("metric", exercise.metricType.toString())
+                    exercise.metricType?.let { metricType ->
+                        intent.putExtra("metric", metricType.toString())
+                    }
                     intent.putExtra("exercise_image", exercise.image)
                     intent.putExtra("exercise_name", exercise.name)
                     context.startActivity(intent)
@@ -134,7 +134,7 @@ class ExerciseItemAdapter(
         }
     }
 
-    private fun getExerciseList(): List<Exercise> {
+    private suspend fun getExerciseList(): List<Exercise> {
         return exercises ?: exerciseService.getExerciseListFromDivision(divisionId)
     }
 

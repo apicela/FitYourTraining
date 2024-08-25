@@ -19,7 +19,7 @@ import com.apicela.training.utils.converter.ExerciseListConverter
 
 @Database(
     entities = [Exercise::class, Workout::class, Division::class, Execution::class, Observation::class],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 @TypeConverters(

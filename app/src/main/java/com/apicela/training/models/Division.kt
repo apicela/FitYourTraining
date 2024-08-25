@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.apicela.training.utils.converter.DivisionListConverter
 import java.io.Serializable
 import java.util.UUID
 
@@ -22,14 +24,15 @@ data class Division(
     var workoutId: String,
     var name: String,
     var image: String,
-    var listOfExercises: List<Exercise>
+    @TypeConverters(DivisionListConverter::class)
+    var listOfExercises: List<String> // armazena apenas o ID
 ) : Serializable {
     @Ignore
     constructor(
         workoutId: String,
         divisionName: String,
         image: String,
-        listOfExercises: List<Exercise>
+        listOfExercises: List<String>
     ) :
             this(UUID.randomUUID().toString(), workoutId, divisionName, image, listOfExercises)
 }

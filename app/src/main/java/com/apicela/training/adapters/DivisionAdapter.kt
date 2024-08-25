@@ -28,7 +28,11 @@ class DivisionAdapter(
     val workoutService = WorkoutService()
     private var isEditing = false
     val workout = runBlocking { workoutService.getWorkoutById(workoutId) }
-    var list = workout.listOfDivision as MutableList<Division>
+    var list = workout.listOfDivision.mapNotNull { it ->
+        runBlocking {
+            workoutService.divisionService.getDivisionById(it)
+        }
+    } as MutableList<Division>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =

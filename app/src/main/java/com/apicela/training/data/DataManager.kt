@@ -19,6 +19,8 @@ object DataManager {
                         .addMigrations(MIGRATION_3_4)
                         .addMigrations(MIGRATION_4_5) // Adiciona a migração
                         .addMigrations(MIGRATION_5_6) // Adiciona a migração
+                        .addMigrations(MIGRATION_6_7) // Adiciona a migração
+
                         .build()
                 }
             }

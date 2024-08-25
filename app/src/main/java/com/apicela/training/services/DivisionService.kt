@@ -32,10 +32,10 @@ class DivisionService() {
         }
     }
 
-    fun addDivisionToWorkout(division: Division, workout_id: String) {
+    fun addDivisionToWorkout(divisionId: String, workout_id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             var workout = db.workoutDao().getWorkoutById(workout_id)
-            workout?.listOfDivision = workout!!.listOfDivision + division
+            workout?.listOfDivision = workout!!.listOfDivision + divisionId
             db.workoutDao().update(workout)
         }
     }

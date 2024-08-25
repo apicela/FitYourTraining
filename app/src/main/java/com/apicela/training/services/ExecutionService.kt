@@ -60,8 +60,8 @@ class ExecutionService() {
         return listOfExecutions
     }
 
-    fun executionListToMap(exercise_id: String): Map<String, List<Execution>> {
-        val executionList = runBlocking { findExecutionsListByExerciseId(exercise_id) }
+    fun executionListToMap(exerciseId: String): Map<String, List<Execution>> {
+        val executionList = runBlocking { findExecutionsListByExerciseId(exerciseId) }
         return executionList.groupBy { execution ->
             SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(execution.date)
         }

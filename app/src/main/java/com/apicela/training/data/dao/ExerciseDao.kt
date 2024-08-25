@@ -10,18 +10,18 @@ import com.apicela.training.models.Workout
 @Dao
 interface ExerciseDao {
     @Query("SELECT * FROM exercise")
-    fun getAllExercises(): List<Exercise>
+     fun getAllExercises(): List<Exercise>
 
     @Query("SELECT * FROM exercise WHERE id = :id")
-    fun getExerciseById(id: String): Exercise
+     fun getExerciseById(id: String): Exercise
 
     @Query("DELETE FROM Exercise WHERE id = :id")
-    fun deleteById(id: String)
+     fun deleteById(id: String)
 
     @Insert
-    fun insert(exercise: Exercise)
+     fun insert(exercise: Exercise)
 
     @Update
-    fun update(workout: Exercise)
+     fun update(workout: Exercise)
 }
 

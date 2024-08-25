@@ -36,7 +36,7 @@ class CreateDivision : AppCompatActivity() {
                     divisionName.text.toString(),
                     null
                 )
-                divisionService.addDivisionToWorkout(division, workoutId!!)
+                divisionService.addDivisionToWorkout(division.id, workoutId!!)
             }
             val resultIntent = Intent()
             setResult(Codes.REQUEST_CODE_CREATED, resultIntent)

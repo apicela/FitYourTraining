@@ -17,11 +17,12 @@ class WorkoutService() {
         workoutItem.name = workoutName
         workoutItem.description = descricao
         workoutItem.image = image
-        workoutItem.listOfDivision = listOf(
+        val listOfDivisions = listOf(
             divisionService.createDivision(workoutItem.id, "A", "number_1"),
             divisionService.createDivision(workoutItem.id, "B", "number_2"),
             divisionService.createDivision(workoutItem.id, "C", "number_3"),
         )
+        workoutItem.listOfDivision = listOfDivisions.map{ it.id}
 
         withContext(Dispatchers.IO) {
             db.workoutDao().update(workoutItem)
