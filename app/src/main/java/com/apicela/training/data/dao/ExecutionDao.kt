@@ -5,6 +5,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.apicela.training.models.Execution
+import com.apicela.training.models.extra.MonthKgMode
+import java.util.Date
 
 
 @Dao
@@ -33,4 +35,13 @@ interface ExecutionDao {
 
     @Query("DELETE FROM Execution WHERE id = :id")
     fun deleteById(id: String)
+
+
+    @Query("""
+    SELECT date(date, 'yyyy-MM') AS month, kg
+    FROM Execution
+    WHERE exercise_id = :exerciseId AND date >= :sixMonthsAgo
+""")
+    fun getKgDataForPastSixMonths(exerciseId: String, sixMonthsAgo: Long): List<MonthKgMode>
+
 }

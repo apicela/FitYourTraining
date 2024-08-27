@@ -4,10 +4,12 @@ import android.util.Log
 import com.apicela.training.data.Database
 import com.apicela.training.models.Division
 import com.apicela.training.models.Exercise
+import com.apicela.training.models.extra.MonthKgMode
 import com.apicela.training.ui.activitys.HomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 
 class ExerciseService() {
     private val db: Database = HomeActivity.DATABASE
@@ -92,6 +94,13 @@ class ExerciseService() {
         return if (divisionId != null) {
             runBlocking { divisionService.getDivisionById(divisionId) }
         } else null
+    }
+
+    suspend fun getModeOfKgForLastSixMonths(exerciseId: String): List<MonthKgMode> {
+        val sixMonthsAgo = System.currentTimeMillis() - 6 * 30 * 24 * 60 * 60 * 1000
+        val results = db.executionDao().getKgDataForPastSixMonths(exerciseId,sixMonthsAgo)
+        Log.d("Statistics", "exerciseId: ${exerciseId}, sixMonths: ${sixMonthsAgo}, result : ${results}")
+        return results
     }
 
 //    fun addExerciseToDivision(exerciseName: String, image: String, muscleType: Muscle) {
