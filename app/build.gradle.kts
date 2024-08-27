@@ -93,6 +93,7 @@ dependencies {
     // Dependências de testes unitários
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
+    testImplementation("androidx.room:room-testing:$room_version")
 
 
     implementation("androidx.cardview:cardview:1.0.0")
