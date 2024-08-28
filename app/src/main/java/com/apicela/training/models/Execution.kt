@@ -16,6 +16,6 @@ data class Execution(
     var date: Date
 ) {
     @Ignore
-    constructor(repetitions: Int, isCardio: Boolean, kg: Float, exerciseId: String, date: Date) :
+    constructor(isCardio: Boolean, repetitions: Int,  kg: Float, exerciseId: String, date: Date) :
             this(UUID.randomUUID().toString(), isCardio, repetitions, kg, exerciseId, date)
 }

@@ -89,7 +89,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.room:room-ktx:$room_version")
-
+    androidTestImplementation("com.github.javafaker:javafaker:1.0.2")
     // Dependências de testes unitários
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")

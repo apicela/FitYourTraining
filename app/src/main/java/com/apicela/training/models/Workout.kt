@@ -14,6 +14,7 @@ data class Workout(
     var listOfDivision: List<String>
 ) {
     @Ignore
-    constructor() : this(UUID.randomUUID().toString(), "", "", "", emptyList())
+    constructor(name : String, description : String, image : String, listOfDivision : List<String>) :
+            this(UUID.randomUUID().toString(), name, description, image, emptyList())
 
 }

@@ -7,6 +7,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.apicela.training.data.DataManager
 import com.apicela.training.data.Database
 import com.apicela.training.data.dao.ExecutionDao
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
@@ -50,6 +51,15 @@ class ExampleInstrumentedTest {
         val sixMonthsAgo = 1726353090560
         val results = db.executionDao().getKgDataForPastSixMonths(exerciseId,sixMonthsAgo)
         Log.d("Statistics", "exerciseId: ${exerciseId}, sixMonths: ${sixMonthsAgo}, result : ${results}")
+        assertNotEquals(0, results.size)
+
+    }
+
+    @Test
+    fun testGetAll(){
+        Log.d("Statistics", " db : ${db}")
+        val results = runBlocking {  db.executionDao().getAllExecution() }
+       Log.d("Statistics", " result : ${results}")
         assertNotEquals(0, results.size)
 
     }

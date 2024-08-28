@@ -13,7 +13,7 @@ import java.util.Date
 interface ExecutionDao {
 
     @Query("SELECT * FROM Execution")
-    fun getAllExecution(): List<Execution>
+    suspend fun getAllExecution(): List<Execution>
 
     @Query("SELECT * FROM execution WHERE strftime('%d/%m/%Y', date / 1000, 'unixepoch') =  :date")
     fun getAllExecutionFromDate(date: String): List<Execution>
@@ -38,9 +38,12 @@ interface ExecutionDao {
 
 
     @Query("""
-    SELECT date(date, 'yyyy-MM') AS month, kg
+    SELECT strftime('%Y-%m', date / 1000, 'unixepoch') AS month, kg
     FROM Execution
     WHERE exercise_id = :exerciseId AND date >= :sixMonthsAgo
+    GROUP BY month, kg
+    ORDER BY COUNT(kg) DESC
+    LIMIT 1
 """)
     fun getKgDataForPastSixMonths(exerciseId: String, sixMonthsAgo: Long): List<MonthKgMode>
 

@@ -67,7 +67,7 @@ class RegisterExecutionCardio (
                 val editTextAsDate = format.parse(editTextDate.text.toString()) as Date
                 val date = Components.formatDateWithCurrentTime(editTextAsDate)
                 if (executionId == null) {
-                    val execution = Execution(minutes, true,0f, exerciseId, date)
+                    val execution = Execution(true, minutes,0f, exerciseId, date)
                     runBlocking { executionService.addExecutionToDatabase(execution) }
                 } else {
                     val execution = Execution(executionId, true, minutes, 0.0f, exerciseId, date)
