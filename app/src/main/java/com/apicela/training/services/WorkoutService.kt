@@ -10,7 +10,7 @@ class WorkoutService() {
     val divisionService: DivisionService = DivisionService()
 
     suspend fun addWorkout(workoutName: String, descricao: String, image: String) {
-        val workoutItem = Workout()
+        val workoutItem = Workout(workoutName, descricao, image)
         withContext(Dispatchers.IO) {
             db.workoutDao().insert(workoutItem)
         }
