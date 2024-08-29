@@ -14,23 +14,17 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.apicela.training.Apicela
 import com.apicela.training.R
 import com.apicela.training.adapters.ExecutionAdapter
-import com.apicela.training.models.extra.Metrics
-import com.apicela.training.ui.dialogs.DeleteItemDialog
 import com.apicela.training.ui.dialogs.EditTimerDialog
 import com.apicela.training.ui.dialogs.RegisterExecutionCardio
 import com.apicela.training.ui.dialogs.RegisterExecutionDialog
 import com.apicela.training.ui.utils.ImageHelper
-import com.apicela.training.ui.utils.Timer
 import com.apicela.training.ui.utils.TimerImpl
 import com.google.android.material.imageview.ShapeableImageView
-import kotlinx.coroutines.runBlocking
 
 class ExecutionActivity : AppCompatActivity() {
 

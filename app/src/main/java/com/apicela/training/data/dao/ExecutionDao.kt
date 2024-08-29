@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.apicela.training.models.Execution
-import com.apicela.training.models.extra.ExecutionInfo
+import com.apicela.training.models.extra.ExecutionRaw
 
 
 @Dao
@@ -45,5 +45,5 @@ interface ExecutionDao {
         WHERE exercise_id = :exerciseId AND date >= strftime('%s', 'now', '-6 months') * 1000 
         ORDER BY date DESC
     """)
-    fun getExecutionsForLastSixMonths(exerciseId: String): List<ExecutionInfo>
+    fun getExecutionsForLastSixMonths(exerciseId: String): List<ExecutionRaw>
 }

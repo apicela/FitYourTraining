@@ -1,12 +1,10 @@
 package com.apicela.training
 
 import android.app.Application
-import android.view.ViewGroup
 import com.apicela.training.data.DataManager
 import com.apicela.training.models.Exercise
 import com.apicela.training.services.ExerciseService
 import com.apicela.training.ui.activitys.HomeActivity
-import com.apicela.training.ui.utils.Timer
 import com.apicela.training.utils.preferences.SharedPreferencesHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

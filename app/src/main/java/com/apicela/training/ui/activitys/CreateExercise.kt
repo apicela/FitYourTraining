@@ -1,7 +1,5 @@
 package com.apicela.training.ui.activitys
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -10,12 +8,10 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.apicela.training.R
-import com.apicela.training.adapters.ExerciseItemAdapter
 import com.apicela.training.models.Exercise
 import com.apicela.training.models.extra.Metrics
 import com.apicela.training.models.extra.Muscle
 import com.apicela.training.services.ExerciseService
-import com.apicela.training.utils.Codes
 import com.apicela.training.utils.UtilsComponents
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

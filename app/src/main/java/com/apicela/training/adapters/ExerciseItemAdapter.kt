@@ -23,9 +23,9 @@ import com.apicela.training.ui.utils.ImageHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.Collections
+
 class ExerciseItemAdapter(
     private val context: Context,
     private val divisionId: String? = null,
