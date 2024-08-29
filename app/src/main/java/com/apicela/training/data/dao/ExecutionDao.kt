@@ -5,8 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.apicela.training.models.Execution
-import com.apicela.training.models.extra.MonthKgMode
-import java.util.Date
+import com.apicela.training.models.extra.ExecutionInfo
 
 
 @Dao
@@ -38,13 +37,13 @@ interface ExecutionDao {
 
 
     @Query("""
-    SELECT strftime('%Y-%m', date / 1000, 'unixepoch') AS month, kg
-    FROM Execution
-    WHERE exercise_id = :exerciseId AND date >= :sixMonthsAgo
-    GROUP BY month, kg
-    ORDER BY COUNT(kg) DESC
-    LIMIT 1
-""")
-    fun getKgDataForPastSixMonths(exerciseId: String, sixMonthsAgo: Long): List<MonthKgMode>
-
+        SELECT 
+            strftime('%Y-%m', date / 1000, 'unixepoch') AS month, 
+            kg, 
+            repetitions 
+        FROM Execution 
+        WHERE exercise_id = :exerciseId AND date >= strftime('%s', 'now', '-6 months') * 1000 
+        ORDER BY date DESC
+    """)
+    fun getExecutionsForLastSixMonths(exerciseId: String): List<ExecutionInfo>
 }

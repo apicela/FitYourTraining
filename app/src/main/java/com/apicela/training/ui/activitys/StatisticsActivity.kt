@@ -52,7 +52,8 @@ class StatisticsActivity : AppCompatActivity() {
                 try {
                     // Fazer a chamada de rede na thread de fundo
                     val result = withContext(Dispatchers.IO) {
-                        exerciseService.getModeOfKgForLastSixMonths(selectedItem.id)
+                        //@TODO
+//                        exerciseService.getModeOfKgForLastSixMonths(selectedItem.id)
                     }
                     // Atualizar a UI com o resultado na thread principal
                 } catch (e: Exception) {

@@ -103,4 +103,8 @@ class ExecutionService() {
         return response.drop(2).toString()
     }
 
+//    fun getKgDataForPastSixMonths(exerciseId: String, date: Date){
+//        Long timestamp =
+//    }
+
 }

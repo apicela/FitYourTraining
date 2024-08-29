@@ -44,16 +44,7 @@ class ExampleInstrumentedTest {
         assertEquals("com.apicela.training", appContext.packageName)
     }
 
-    @Test
-    fun testQuery(){
-        //  Apicela()
-        val exerciseId = "18d2e426-dc7b-43e3-b8b6-072ea4389a11"
-        val sixMonthsAgo = 1726353090560
-        val results = db.executionDao().getKgDataForPastSixMonths(exerciseId,sixMonthsAgo)
-        Log.d("Statistics", "exerciseId: ${exerciseId}, sixMonths: ${sixMonthsAgo}, result : ${results}")
-        assertNotEquals(0, results.size)
 
-    }
 
     @Test
     fun testGetAll(){

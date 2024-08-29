@@ -7,7 +7,7 @@ import com.github.javafaker.Faker
 
 class ExerciseBuilder {
     val faker = Faker()
-    private var name: String = faker.dragonBall().toString()
+    private var name: String = faker.dragonBall().character()
     private var image: String = faker.internet().image()
     private var metrics: Metrics = Metrics.CARGA
     private var muscle: Muscle = Muscle.CHEST
