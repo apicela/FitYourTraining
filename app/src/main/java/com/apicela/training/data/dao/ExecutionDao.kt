@@ -12,19 +12,19 @@ import com.apicela.training.models.extra.ExecutionInfo
 interface ExecutionDao {
 
     @Query("SELECT * FROM Execution")
-    suspend fun getAllExecution(): List<Execution>
+    suspend fun getAll(): List<Execution>
 
     @Query("SELECT * FROM execution WHERE strftime('%d/%m/%Y', date / 1000, 'unixepoch') =  :date")
     fun getAllExecutionFromDate(date: String): List<Execution>
 
     @Query("SELECT * FROM execution WHERE id = :id")
-    fun getExecutionById(id: String): Execution
+    fun getById(id: String): Execution
 
     @Query("SELECT * FROM Execution WHERE exercise_id = :exerciseId ORDER BY date DESC")
     fun getAllExecutionFromExercise(exerciseId: String): List<Execution>
 
     @Query("SELECT * FROM Execution WHERE exercise_id = :id ORDER BY date DESC LIMIT 1")
-    fun getLastInsertedExecution(id: String): Execution?
+    fun getLastInserted(id: String): Execution?
 
     @Insert
     fun insert(execution: Execution)

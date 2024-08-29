@@ -31,13 +31,13 @@ class WorkoutService() {
 
     suspend fun getAllWorkouts(): List<Workout> {
         return withContext(Dispatchers.IO) {
-            db.workoutDao().getAllWorkouts()
+            db.workoutDao().getAll()
         }
     }
 
     suspend fun getWorkoutById(id: String): Workout {
         return withContext(Dispatchers.IO) {
-            db.workoutDao().getWorkoutById(id)
+            db.workoutDao().getById(id)
         }
     }
 

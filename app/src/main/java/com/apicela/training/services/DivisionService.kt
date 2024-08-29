@@ -34,7 +34,7 @@ class DivisionService() {
 
     fun addDivisionToWorkout(divisionId: String, workout_id: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            var workout = db.workoutDao().getWorkoutById(workout_id)
+            var workout = db.workoutDao().getById(workout_id)
             workout?.listOfDivision = workout!!.listOfDivision + divisionId
             db.workoutDao().update(workout)
         }
@@ -42,7 +42,7 @@ class DivisionService() {
 
     suspend fun getDivisionById(id: String): Division? {
         return withContext(Dispatchers.IO) {
-            db.divisionDao().getDivisionById(id)
+            db.divisionDao().getById(id)
         }
     }
 

@@ -49,7 +49,7 @@ class ExampleInstrumentedTest {
     @Test
     fun testGetAll(){
         Log.d("Statistics", " db : ${db}")
-        val results = runBlocking {  db.executionDao().getAllExecution() }
+        val results = runBlocking {  db.executionDao().getAll() }
        Log.d("Statistics", " result : ${results}")
         assertNotEquals(0, results.size)
 

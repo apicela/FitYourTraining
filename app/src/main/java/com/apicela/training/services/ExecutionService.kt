@@ -69,7 +69,7 @@ class ExecutionService() {
 
     suspend fun getAll(): List<Execution> {
         return withContext(Dispatchers.IO) {
-            db.executionDao().getAllExecution()
+            db.executionDao().getAll()
         }
     }
 
@@ -81,13 +81,13 @@ class ExecutionService() {
 
     suspend fun getLastInsertedExecution(id: String): Execution? {
         return withContext(Dispatchers.IO) {
-            db.executionDao().getLastInsertedExecution(id)
+            db.executionDao().getLastInserted(id)
         }
     }
 
     suspend fun getExecutionById(id: String): Execution? {
         return withContext(Dispatchers.IO) {
-            db.executionDao().getExecutionById(id)
+            db.executionDao().getById(id)
         }
     }
 

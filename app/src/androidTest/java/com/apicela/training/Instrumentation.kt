@@ -8,7 +8,6 @@ import com.apicela.training.builder.ExecutionBuilder
 import com.apicela.training.builder.ExerciseBuilder
 import com.apicela.training.data.Database
 import com.apicela.training.data.dao.ExecutionDao
-import com.apicela.training.models.Execution
 import com.apicela.training.ui.utils.Components
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -39,10 +38,10 @@ class Instrumentation {
     @Test
     fun testGetAllExercises() {
         // Exemplo de como usar o banco de dados na memória em um teste
-        val oldResult = runBlocking { db.exerciseDao().getAllExercises() }
+        val oldResult = runBlocking { db.exerciseDao().getAll() }
         val newExercise = exerciseBuilder.build();
         runBlocking { db.exerciseDao().insert(newExercise) }
-        val newResult = runBlocking { db.exerciseDao().getAllExercises() }
+        val newResult = runBlocking { db.exerciseDao().getAll() }
         Log.d("Instrumentation", "${newExercise}")
         assertNotEquals(oldResult.size, newResult.size)
     }
@@ -51,11 +50,11 @@ class Instrumentation {
     fun testGetAllExecutions() {
         val newExercise = exerciseBuilder.build();
         runBlocking { db.exerciseDao().insert(newExercise) }
-        val oldResult = runBlocking { db.executionDao().getAllExecution() }
+        val oldResult = runBlocking { db.executionDao().getAll() }
         val execution = ExecutionBuilder().exerciseId(newExercise.id)
             .build();
         runBlocking { db.executionDao().insert(execution) }
-        val newResult = runBlocking { db.executionDao().getAllExecution() }
+        val newResult = runBlocking { db.executionDao().getAll() }
         Log.d("Instrumentation", "${execution}")
         assertNotEquals(oldResult.size, newResult.size)
     }
@@ -83,7 +82,7 @@ class Instrumentation {
             runBlocking { db.executionDao().insert(execution1) }
         }
 
-        val listOfExecution = runBlocking { db.executionDao().getAllExecution() }
+        val listOfExecution = runBlocking { db.executionDao().getAll() }
         val newResult = runBlocking { db.executionDao().getExecutionsForLastSixMonths(newExercise.id) }
         Log.d("Instrumentation", " listOfExecution: ${listOfExecution}}")
         Log.d("Instrumentation", " newResult: ${newResult}}")

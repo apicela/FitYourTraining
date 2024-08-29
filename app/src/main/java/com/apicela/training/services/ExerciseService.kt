@@ -8,7 +8,6 @@ import com.apicela.training.ui.activitys.HomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.util.Calendar
 
 class ExerciseService() {
     private val db: Database = HomeActivity.DATABASE
@@ -53,13 +52,13 @@ class ExerciseService() {
 
     suspend fun getExerciseById(id: String): Exercise {
         return withContext(Dispatchers.IO) {
-            db.exerciseDao().getExerciseById(id)
+            db.exerciseDao().getById(id)
         }
     }
 
     suspend fun getAllExercises(): List<Exercise> {
         return withContext(Dispatchers.IO) {
-            db.exerciseDao().getAllExercises()
+            db.exerciseDao().getAll()
         }
     }
 
@@ -69,7 +68,7 @@ class ExerciseService() {
         } else {
             val division = divisionService.getDivisionById(divisionId)
             division?.listOfExercises?.mapNotNull { exerciseId ->
-                db.exerciseDao().getExerciseById(exerciseId)
+                db.exerciseDao().getById(exerciseId)
             } ?: emptyList()
         }
         if (exerciseList.isNotEmpty()) {
@@ -84,7 +83,7 @@ class ExerciseService() {
         val division = getDivision(divisionId)
         return if (division != null && division.listOfExercises.isNotEmpty()) {
             runBlocking{   division.listOfExercises.mapNotNull { id ->
-                db.exerciseDao().getExerciseById(id)
+                db.exerciseDao().getById(id)
             }}
         } else listOf()
     }

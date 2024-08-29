@@ -10,13 +10,13 @@ import com.apicela.training.models.Exercise
 @Dao
 interface DivisionDao {
     @Query("SELECT * FROM division")
-    fun getAllDivisions(): List<Division>
+    fun getAll(): List<Division>
 
     @Insert
     fun insert(division: Division)
 
     @Query("SELECT * FROM division WHERE id = :divisionId")
-    fun getDivisionById(divisionId: String): Division?
+    fun getById(divisionId: String): Division?
 
     @Update
     fun update(division: Division)
