@@ -45,5 +45,17 @@ interface ExecutionDao {
         WHERE exercise_id = :exerciseId AND date >= strftime('%s', 'now', '-6 months') * 1000 
         ORDER BY date DESC
     """)
-    fun getExecutionsForLastSixMonths(exerciseId: String): List<ExecutionRaw>
+    suspend fun getExecutionsForPastMonths(exerciseId: String): List<ExecutionRaw>
+
+    @Query("""
+        SELECT 
+            strftime('%Y-%m', date / 1000, 'unixepoch') AS month, 
+            kg, 
+            repetitions 
+        FROM Execution 
+        WHERE exercise_id = :exerciseId AND date >= :monthsAgoInMillis 
+        ORDER BY date DESC
+    """)
+    suspend fun getExecutionsForPastMonths(exerciseId: String, monthsAgoInMillis : Long): List<ExecutionRaw>
+
 }

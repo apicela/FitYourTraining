@@ -3,11 +3,17 @@ package com.apicela.training.services
 import android.util.Log
 import com.apicela.training.data.Database
 import com.apicela.training.models.Execution
+import com.apicela.training.models.extra.ExecutionInfo
+import com.apicela.training.models.extra.Info
 import com.apicela.training.ui.activitys.HomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -106,5 +112,28 @@ class ExecutionService() {
 //    fun getKgDataForPastSixMonths(exerciseId: String, date: Date){
 //        Long timestamp =
 //    }
+
+    suspend fun getExecutionsFromExerciseIdPastMonths(exerciseId: String, monthsAgo: Int): List<ExecutionInfo> {
+        val sixMonthsAgo = LocalDate.now().minus(6, ChronoUnit.MONTHS)
+        val monthsAgoInMillis = sixMonthsAgo.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val listOfExecution = runBlocking { db.executionDao().getAll().size }
+        Log.d("ExecutionService", "listOfExec: ${listOfExecution}")
+        return withContext(Dispatchers.IO) {
+            val executionsPastMonthAsExecutionRawList = db.executionDao().getExecutionsForPastMonths(exerciseId, monthsAgoInMillis)
+            val executionsPastMonthAsExecutionRawList1 = runBlocking {  db.executionDao().getExecutionsForPastMonths(exerciseId) }
+            Log.d("ExecutionService", "common: ${executionsPastMonthAsExecutionRawList}")
+            Log.d("ExecutionService", "1: ${executionsPastMonthAsExecutionRawList1}")
+            val list = executionsPastMonthAsExecutionRawList.groupBy { it.month }
+                .map { (monthYear, infos) ->
+                    ExecutionInfo(
+                        month = monthYear,
+                        list = infos.map { Info(it.kg, it.repetitions) }
+                    )
+                }
+            Log.d("ExecutionService", "${list}")
+            return@withContext list
+        }
+    }
+
 
 }

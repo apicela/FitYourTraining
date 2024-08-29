@@ -8,6 +8,7 @@ import com.apicela.training.builder.ExecutionBuilder
 import com.apicela.training.builder.ExerciseBuilder
 import com.apicela.training.data.Database
 import com.apicela.training.data.dao.ExecutionDao
+import com.apicela.training.services.ExecutionService
 import com.apicela.training.ui.utils.Components
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -63,8 +64,6 @@ class Instrumentation {
     fun testExecutionsByDate() {
         val newExercise = exerciseBuilder.build();
         runBlocking { db.exerciseDao().insert(newExercise) }
-        val sixMonthsAgo = System.currentTimeMillis() - 6 * 30 * 24 * 60 * 60 * 1000
-        // val executions : List<Execution> = mutableListOf();
 
         for(i in 5..9 ){
             val dateString = "10/0${i}/2024"
@@ -82,9 +81,12 @@ class Instrumentation {
             runBlocking { db.executionDao().insert(execution1) }
         }
 
-        val listOfExecution = runBlocking { db.executionDao().getAll() }
-        val newResult = runBlocking { db.executionDao().getExecutionsForLastSixMonths(newExercise.id) }
-        Log.d("Instrumentation", " listOfExecution: ${listOfExecution}}")
+        val listOfExecution = runBlocking { db.executionDao().getAll().size }
+        Log.d("Instrumentation", "listOfExec: ${listOfExecution}")
+        val newResult = runBlocking { db.executionDao().getExecutionsForPastMonths(newExercise.id) }
+        val result = runBlocking { ExecutionService().getExecutionsFromExerciseIdPastMonths(newExercise.id, 6) }
+
+        Log.d("Instrumentation", " newResult: ${result}}")
         Log.d("Instrumentation", " newResult: ${newResult}}")
 
         assertNotEquals(0, newResult.size)
