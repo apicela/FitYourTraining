@@ -17,8 +17,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class ExecutionService() {
-    private val db: Database = HomeActivity.DATABASE
+class ExecutionService(private val db: Database = HomeActivity.DATABASE) {
     val exerciseService: ExerciseService = ExerciseService()
 
     suspend fun addExecutionToDatabase(execution: Execution) {
@@ -117,7 +116,6 @@ class ExecutionService() {
         val sixMonthsAgo = LocalDate.now().minus(6, ChronoUnit.MONTHS)
         val monthsAgoInMillis = sixMonthsAgo.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
         val listOfExecution = runBlocking { db.executionDao().getAll().size }
-        Log.d("ExecutionService", "listOfExec: ${listOfExecution}")
         return withContext(Dispatchers.IO) {
             val executionsPastMonthAsExecutionRawList = db.executionDao().getExecutionsForPastMonths(exerciseId, monthsAgoInMillis)
             val executionsPastMonthAsExecutionRawList1 = runBlocking {  db.executionDao().getExecutionsForPastMonths(exerciseId) }

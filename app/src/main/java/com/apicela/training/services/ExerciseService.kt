@@ -9,8 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
-class ExerciseService() {
-    private val db: Database = HomeActivity.DATABASE
+class ExerciseService(private val db: Database = HomeActivity.DATABASE) {
     val divisionService = DivisionService()
 
 

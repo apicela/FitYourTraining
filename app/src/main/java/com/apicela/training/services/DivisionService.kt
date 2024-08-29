@@ -9,8 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DivisionService() {
-    private val db: Database = HomeActivity.DATABASE
+class DivisionService(private val db: Database = HomeActivity.DATABASE) {
     fun createDivision(workoutId: String, divisionName: String, image: String?): Division {
         val division = Division(workoutId, divisionName, image ?: "", listOf())
         CoroutineScope(Dispatchers.IO).launch {

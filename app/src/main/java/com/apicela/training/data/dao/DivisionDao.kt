@@ -10,21 +10,21 @@ import com.apicela.training.models.Exercise
 @Dao
 interface DivisionDao {
     @Query("SELECT * FROM division")
-    fun getAll(): List<Division>
+    suspend fun getAll(): List<Division>
 
     @Insert
-    fun insert(division: Division)
+    suspend fun insert(division: Division)
 
     @Query("SELECT * FROM division WHERE id = :divisionId")
-    fun getById(divisionId: String): Division?
+    suspend fun getById(divisionId: String): Division?
 
     @Update
-    fun update(division: Division)
+    suspend fun update(division: Division)
 
     @Query("DELETE FROM Division WHERE id = :id")
-    fun deleteById(id: String)
+    suspend fun deleteById(id: String)
 
     @Query("UPDATE division SET listOfExercises = :listOfExercises WHERE id = :divisionId")
-    fun updateListOfExercises(divisionId: String, listOfExercises: List<Exercise>)
+    suspend fun updateListOfExercises(divisionId: String, listOfExercises: List<Exercise>)
 }
 

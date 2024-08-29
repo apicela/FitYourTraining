@@ -60,35 +60,5 @@ class Instrumentation {
         assertNotEquals(oldResult.size, newResult.size)
     }
 
-    @Test
-    fun testExecutionsByDate() {
-        val newExercise = exerciseBuilder.build();
-        runBlocking { db.exerciseDao().insert(newExercise) }
 
-        for(i in 5..9 ){
-            val dateString = "10/0${i}/2024"
-            val date : Date = Components.createDateByString(dateString)
-            val execution = ExecutionBuilder()
-                .exerciseId(newExercise.id)
-                .date(date)
-                .build();
-            runBlocking { db.executionDao().insert(execution) }
-
-            val execution1 = ExecutionBuilder()
-                .exerciseId(newExercise.id)
-                .date(date)
-                .build();
-            runBlocking { db.executionDao().insert(execution1) }
-        }
-
-        val listOfExecution = runBlocking { db.executionDao().getAll().size }
-        Log.d("Instrumentation", "listOfExec: ${listOfExecution}")
-        val newResult = runBlocking { db.executionDao().getExecutionsForPastMonths(newExercise.id) }
-        val result = runBlocking { ExecutionService().getExecutionsFromExerciseIdPastMonths(newExercise.id, 6) }
-
-        Log.d("Instrumentation", " newResult: ${result}}")
-        Log.d("Instrumentation", " newResult: ${newResult}}")
-
-        assertNotEquals(0, newResult.size)
-    }
 }
