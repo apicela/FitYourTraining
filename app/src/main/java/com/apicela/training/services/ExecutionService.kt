@@ -6,7 +6,9 @@ import com.apicela.training.models.Execution
 import com.apicela.training.models.extra.ExecutionInfo
 import com.apicela.training.models.extra.Info
 import com.apicela.training.ui.activitys.HomeActivity
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -113,25 +115,28 @@ class ExecutionService(private val db: Database = HomeActivity.DATABASE) {
 //    }
 
     suspend fun getExecutionsFromExerciseIdPastMonths(exerciseId: String, monthsAgo: Int): List<ExecutionInfo> {
-        val sixMonthsAgo = LocalDate.now().minus(6, ChronoUnit.MONTHS)
-        val monthsAgoInMillis = sixMonthsAgo.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-        val listOfExecution = runBlocking { db.executionDao().getAll().size }
-        return withContext(Dispatchers.IO) {
-            val executionsPastMonthAsExecutionRawList = db.executionDao().getExecutionsForPastMonths(exerciseId, monthsAgoInMillis)
-            val executionsPastMonthAsExecutionRawList1 = runBlocking {  db.executionDao().getExecutionsForPastMonths(exerciseId) }
-            Log.d("ExecutionService", "common: ${executionsPastMonthAsExecutionRawList}")
-            Log.d("ExecutionService", "1: ${executionsPastMonthAsExecutionRawList1}")
-            val list = executionsPastMonthAsExecutionRawList.groupBy { it.month }
-                .map { (monthYear, infos) ->
-                    ExecutionInfo(
-                        month = monthYear,
-                        list = infos.map { Info(it.kg, it.repetitions) }
-                    )
-                }
-            Log.d("ExecutionService", "${list}")
-            return@withContext list
+        // Calcular a data em milissegundos referente a monthsAgo
+        val monthsAgoDate = LocalDate.now().minus(monthsAgo.toLong(), ChronoUnit.MONTHS)
+        val monthsAgoInMillis = monthsAgoDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+        // Obter a lista de execuções do banco de dados
+        val executionsPastMonthAsExecutionRawList = withContext(Dispatchers.IO) {
+            db.executionDao().getExecutionsForPastMonths(exerciseId, monthsAgoInMillis)
         }
+
+        // Agrupar por mês e mapear para o tipo ExecutionInfo
+        val list = executionsPastMonthAsExecutionRawList.groupBy { it.month }
+            .map { (monthYear, infos) ->
+                ExecutionInfo(
+                    month = monthYear,
+                    list = infos.map { Info(it.kg, it.repetitions) }
+                )
+            }
+        Log.d("ExecutionService", "Executions: $list")
+
+        return list
     }
+
 
 
 }
