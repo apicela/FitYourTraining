@@ -8,20 +8,18 @@ import com.apicela.training.builder.ExecutionBuilder
 import com.apicela.training.builder.ExerciseBuilder
 import com.apicela.training.data.Database
 import com.apicela.training.data.dao.ExecutionDao
-import com.apicela.training.services.ExecutionService
-import com.apicela.training.ui.utils.Components
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
-import java.util.Date
 
 class Instrumentation {
 
     private lateinit var db: Database
     private lateinit var executionDao: ExecutionDao
     val exerciseBuilder = ExerciseBuilder()
+
     @Before
     fun setUp() {
         // Configura o banco de dados na memória

@@ -17,5 +17,5 @@ class ExerciseBuilder {
     fun withMuscle(muscle: Muscle) = apply { this.muscle = muscle }
     fun withMetrics(metrics: Metrics) = apply { this.metrics = metrics }
 
-    fun build() = Exercise(name, image, muscle , metrics)
+    fun build() = Exercise(name, image, muscle, metrics)
 }

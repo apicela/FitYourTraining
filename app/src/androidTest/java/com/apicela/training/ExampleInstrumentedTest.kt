@@ -25,6 +25,7 @@ class ExampleInstrumentedTest {
     private lateinit var app: Context
     private lateinit var db: Database
     private lateinit var executionDao: ExecutionDao
+
     @Before
     fun setUp() {
         // Configura a instância do Apicela
@@ -32,6 +33,7 @@ class ExampleInstrumentedTest {
         db = DataManager.getDatabase(app)
         executionDao = db.executionDao()
     }
+
     @After
     fun teardown() {
         db.close() // Fecha o banco de dados após cada teste
@@ -45,12 +47,11 @@ class ExampleInstrumentedTest {
     }
 
 
-
     @Test
-    fun testGetAll(){
+    fun testGetAll() {
         Log.d("Statistics", " db : ${db}")
-        val results = runBlocking {  db.executionDao().getAll() }
-       Log.d("Statistics", " result : ${results}")
+        val results = runBlocking { db.executionDao().getAll() }
+        Log.d("Statistics", " result : ${results}")
         assertNotEquals(0, results.size)
 
     }

@@ -13,9 +13,10 @@ class DivisionBuilder {
     fun workoutId(workoutId: String) = apply { this.workoutId = workoutId }
     fun name(name: String) = apply { this.name = name }
     fun image(image: String) = apply { this.image = image }
-    fun listOfExercises(listOfExercises: List<String>) = apply { this.listOfExercises = listOfExercises }
+    fun listOfExercises(listOfExercises: List<String>) =
+        apply { this.listOfExercises = listOfExercises }
 
     fun build(): Division {
-        return Division( workoutId, name, image, listOfExercises)
+        return Division(workoutId, name, image, listOfExercises)
     }
 }

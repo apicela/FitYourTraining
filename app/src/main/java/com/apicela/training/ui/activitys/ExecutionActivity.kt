@@ -67,7 +67,11 @@ class ExecutionActivity : AppCompatActivity() {
 
     private fun setUpOnClick() {
         plusButton.setOnClickListener {
-            val dialog = if(metric.equals("CARGA")) RegisterExecutionDialog(exerciseId, null, this) else RegisterExecutionCardio(exerciseId, null, this);
+            val dialog = if (metric.equals("CARGA")) RegisterExecutionDialog(
+                exerciseId,
+                null,
+                this
+            ) else RegisterExecutionCardio(exerciseId, null, this);
             dialog.show(supportFragmentManager, "RegistrarExercicioDialog");
             when (dialog) {
                 is RegisterExecutionDialog -> {
@@ -75,6 +79,7 @@ class ExecutionActivity : AppCompatActivity() {
                         executionAdapter.refreshData(exerciseId)
                     }
                 }
+
                 is RegisterExecutionCardio -> {
                     dialog.onDismissListener = {
                         executionAdapter.refreshData(exerciseId)
@@ -91,7 +96,7 @@ class ExecutionActivity : AppCompatActivity() {
             executionAdapter.setEditing(editMode)
             editMode = !editMode
         }
-        timerLayout.setOnClickListener{
+        timerLayout.setOnClickListener {
             val dialog = EditTimerDialog()
             if (this is FragmentActivity) {
                 dialog.show(this.supportFragmentManager, "RegistrarExercicioDialog")

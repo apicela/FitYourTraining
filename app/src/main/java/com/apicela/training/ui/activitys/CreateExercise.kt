@@ -47,9 +47,9 @@ class CreateExercise : AppCompatActivity() {
         val metricsAdapter = ArrayAdapter(this, R.layout.transparent_layout, metricItems)
         metricsAdapter.setDropDownViewResource(R.layout.dropdown_muscle_type)
         metricTypeSpinner.adapter = metricsAdapter
-        var exerciseItem : Exercise?= null;
-        if(exerciseId != null){
-             exerciseItem = runBlocking { exerciseService.getExerciseById(exerciseId) }
+        var exerciseItem: Exercise? = null;
+        if (exerciseId != null) {
+            exerciseItem = runBlocking { exerciseService.getExerciseById(exerciseId) }
             exerciseName.setText("${exerciseItem.name}")
             imageUrl.setText("${exerciseItem.image}")
 
@@ -64,7 +64,7 @@ class CreateExercise : AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 val muscle = (UtilsComponents.getSpinnerSelectedItem(muscleTypeSpinner))
                 val metric = (UtilsComponents.getSpinnerSelectedItem(metricTypeSpinner))
-                if(exerciseId == null){
+                if (exerciseId == null) {
                     exerciseService.addExerciseToDatabase(
                         Exercise(
                             exerciseName.text.toString(),
@@ -74,11 +74,12 @@ class CreateExercise : AppCompatActivity() {
                         )
                     )
                 } else {
-                    if(exerciseItem != null){
+                    if (exerciseItem != null) {
                         exerciseItem.name = exerciseName.text.toString()
                         exerciseItem.image = imageUrl.text.toString()
                         exerciseItem.muscleType = Muscle.getMusclePTBRtoENG(muscle)!!
-                        exerciseItem.metricType =  Metrics.getMetricPTBRtoENG(metric)!!                    }
+                        exerciseItem.metricType = Metrics.getMetricPTBRtoENG(metric)!!
+                    }
                     exerciseService.updateExercise(exerciseItem!!)
                 }
             }

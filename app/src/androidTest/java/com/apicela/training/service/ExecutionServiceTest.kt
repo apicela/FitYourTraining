@@ -7,8 +7,9 @@ import androidx.test.core.app.ApplicationProvider
 import com.apicela.training.builder.ExecutionBuilder
 import com.apicela.training.builder.ExerciseBuilder
 import com.apicela.training.data.Database
-import com.apicela.training.data.dao.ExecutionDao
+import com.apicela.training.models.Exercise
 import com.apicela.training.services.ExecutionService
+import com.apicela.training.services.ExerciseService
 import com.apicela.training.ui.utils.Components
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -19,8 +20,8 @@ import java.util.Date
 
 class ExecutionServiceTest {
     private lateinit var db: Database
-    private lateinit var executionService : ExecutionService
-
+    private lateinit var executionService: ExecutionService
+    private lateinit var exercise: Exercise
 
     @Before
     fun setUp() {
@@ -29,6 +30,9 @@ class ExecutionServiceTest {
         db = Room.inMemoryDatabaseBuilder(context, Database::class.java)
             .build()
         executionService = ExecutionService(db)
+        exercise = ExerciseBuilder().build();
+        runBlocking { ExerciseService().addExerciseToDatabase(exercise) }
+
     }
 
     @After
@@ -38,33 +42,27 @@ class ExecutionServiceTest {
 
     @Test
     fun testExecutionsByDate() {
-        val newExercise = ExerciseBuilder().build();
-        runBlocking { db.exerciseDao().insert(newExercise) }
 
-        for(i in 5..9 ){
+        for (i in 5..9) {
             val dateString = "10/0${i}/2024"
-            val date : Date = Components.createDateByString(dateString)
+            val date: Date = Components.createDateByString(dateString)
             val execution = ExecutionBuilder()
-                .exerciseId(newExercise.id)
+                .exerciseId(exercise.id)
                 .date(date)
                 .build();
             runBlocking { db.executionDao().insert(execution) }
 
             val execution1 = ExecutionBuilder()
-                .exerciseId(newExercise.id)
+                .exerciseId(exercise.id)
                 .date(date)
                 .build();
             runBlocking { db.executionDao().insert(execution1) }
         }
 
-        val listOfExecution = runBlocking { db.executionDao().getAll().size }
-        Log.d("Instrumentation", "listOfExec: ${listOfExecution}")
-        val newResult = runBlocking { db.executionDao().getExecutionsForPastMonths(newExercise.id) }
-        val result = runBlocking { ExecutionService(db).getExecutionsFromExerciseIdPastMonths(newExercise.id, 6) }
+        val result =
+            runBlocking { executionService.getExecutionsFromExerciseIdPastMonths(exercise.id, 6) }
 
-        Log.d("Instrumentation", " newResult: ${result}}")
-        Log.d("Instrumentation", " newResult: ${newResult}}")
-
-        assertNotEquals(0, newResult.size)
+        Log.d("Instrumentation", " result: ${result}}")
+        assertNotEquals(0, result.size)
     }
 }

@@ -60,7 +60,7 @@ class AddExerciseActivity : AppCompatActivity(), OnExerciseCheckedChangeListener
         addExerciseToWorkoutButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 if (division != null) {
-                    val checkedItems = exerciseAdapter.getSelectedExercises().map{it.id}
+                    val checkedItems = exerciseAdapter.getSelectedExercises().map { it.id }
                     val newListExercises = (division.listOfExercises + checkedItems).distinct()
                     division.listOfExercises = newListExercises
                     exerciseService.divisionService.updateDivisionObject(division)

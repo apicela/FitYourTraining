@@ -1,6 +1,6 @@
 package com.apicela.training.models.extra
 
-enum class Metrics(val ptbr : String) {
+enum class Metrics(val ptbr: String) {
     CARDIO("Tempo"),
     CARGA("Carga e repetição");
 

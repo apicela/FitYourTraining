@@ -12,10 +12,11 @@ import kotlinx.coroutines.launch
 
 class Apicela : Application() {
     lateinit var exerciseService: ExerciseService
-    lateinit var sharedPreferencesHelper : SharedPreferencesHelper
+    lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
     companion object {
         var REST_TIMING = ""
+
         @Volatile
         private lateinit var instance: Apicela
 

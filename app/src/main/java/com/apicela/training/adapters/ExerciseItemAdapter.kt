@@ -43,6 +43,7 @@ class ExerciseItemAdapter(
     init {
         refreshData()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseItemViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_exercise, parent, false)
         return ExerciseItemViewHolder(view)
@@ -70,7 +71,8 @@ class ExerciseItemAdapter(
 
 
         private fun setVisibility() {
-            checkbox.visibility = if (checkedItemCountChangedListener != null) View.VISIBLE else View.GONE
+            checkbox.visibility =
+                if (checkedItemCountChangedListener != null) View.VISIBLE else View.GONE
             minusImage.visibility = if (isEditing) View.VISIBLE else View.GONE
             editButton.visibility = if (isEditing) View.VISIBLE else View.GONE
         }
@@ -96,7 +98,7 @@ class ExerciseItemAdapter(
                         exerciseService.deleteExerciseById(exercise.id)
                     }
                     withContext(Dispatchers.Main) {
-                        if(context is ExerciseActivity) context.refreshExerciseAdapter()
+                        if (context is ExerciseActivity) context.refreshExerciseAdapter()
                     }
                 }
             }

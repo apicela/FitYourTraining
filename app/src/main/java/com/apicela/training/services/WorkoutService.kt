@@ -22,7 +22,7 @@ class WorkoutService(private val db: Database = HomeActivity.DATABASE) {
             divisionService.createDivision(workoutItem.id, "B", "number_2"),
             divisionService.createDivision(workoutItem.id, "C", "number_3"),
         )
-        workoutItem.listOfDivision = listOfDivisions.map{ it.id}
+        workoutItem.listOfDivision = listOfDivisions.map { it.id }
 
         withContext(Dispatchers.IO) {
             db.workoutDao().update(workoutItem)

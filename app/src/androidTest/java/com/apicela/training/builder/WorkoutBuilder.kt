@@ -13,7 +13,8 @@ class WorkoutBuilder {
     fun name(name: String) = apply { this.name = name }
     fun description(description: String) = apply { this.description = description }
     fun image(image: String) = apply { this.image = image }
-    fun listOfDivision(listOfDivision: List<String>) = apply { this.listOfDivision = listOfDivision }
+    fun listOfDivision(listOfDivision: List<String>) =
+        apply { this.listOfDivision = listOfDivision }
 
     fun build(): Workout {
         return Workout(name, description, image, listOfDivision)

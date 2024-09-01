@@ -25,7 +25,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     lateinit var recyclerView: RecyclerView // Add this line
     lateinit var listOfWorkouts: List<Workout>
     private val workoutService: WorkoutService = WorkoutService()
-    lateinit var fytIcon : ImageView
+    lateinit var fytIcon: ImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

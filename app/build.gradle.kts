@@ -80,7 +80,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     // graph
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 // Dependências de testes de instrumentação
     androidTestImplementation("androidx.test:runner:1.5.0")

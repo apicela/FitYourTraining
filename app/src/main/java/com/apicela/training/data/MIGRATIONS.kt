@@ -38,9 +38,10 @@ val MIGRATION_5_6 = object : Migration(5, 6) {
 val MIGRATION_6_7 = object : Migration(6, 7) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.beginTransaction()
-        try{
-          // Cria a tabela temporária
-            database.execSQL("""
+        try {
+            // Cria a tabela temporária
+            database.execSQL(
+                """
             CREATE TABLE Division_temp (
                 id TEXT PRIMARY KEY NOT NULL,
                 workoutId TEXT NOT NULL,
@@ -49,39 +50,44 @@ val MIGRATION_6_7 = object : Migration(6, 7) {
                 listOfExercises TEXT NOT NULL,
                 FOREIGN KEY(workoutId) REFERENCES Workout(id) ON DELETE CASCADE
             )
-        """)
+        """
+            )
 
-        // Pega os dados da tabela antiga
-        var cursor = database.query("SELECT id, workoutId, name, image, listOfExercises FROM division")
+            // Pega os dados da tabela antiga
+            var cursor =
+                database.query("SELECT id, workoutId, name, image, listOfExercises FROM division")
 
-        // Insere os dados convertidos na tabela temporária
-        while (cursor.moveToNext()) {
-            val id = cursor.getString(0)
-            val workoutId = cursor.getString(1)
-            val name = cursor.getString(2)
-            val image = cursor.getString(3)
-            val oldListOfExercises = cursor.getString(4) // Lista JSON
+            // Insere os dados convertidos na tabela temporária
+            while (cursor.moveToNext()) {
+                val id = cursor.getString(0)
+                val workoutId = cursor.getString(1)
+                val name = cursor.getString(2)
+                val image = cursor.getString(3)
+                val oldListOfExercises = cursor.getString(4) // Lista JSON
 
-            // Converte a lista JSON para uma lista de IDs
-            val listOfExercises = convertJsonToListOfIds(oldListOfExercises)
+                // Converte a lista JSON para uma lista de IDs
+                val listOfExercises = convertJsonToListOfIds(oldListOfExercises)
 
-            // Insere na tabela temporária
-            database.execSQL("""
+                // Insere na tabela temporária
+                database.execSQL(
+                    """
             INSERT INTO division_temp (id, workoutId, name, image, listOfExercises)
             VALUES (?, ?, ?, ?, ?)
-            """, arrayOf(id, workoutId, name, image, listOfExercises))
-        }
+            """, arrayOf(id, workoutId, name, image, listOfExercises)
+                )
+            }
 
-        cursor.close()
+            cursor.close()
 
-        // Remove a tabela antiga
-        database.execSQL("DROP TABLE division")
+            // Remove a tabela antiga
+            database.execSQL("DROP TABLE division")
 
-        // Renomeia a tabela temporária para o nome original
-        database.execSQL("ALTER TABLE division_temp RENAME TO division")
+            // Renomeia a tabela temporária para o nome original
+            database.execSQL("ALTER TABLE division_temp RENAME TO division")
 
 
-            database.execSQL("""    
+            database.execSQL(
+                """    
                     CREATE TABLE workout_temp (
                     id TEXT PRIMARY KEY NOT NULL,
                 name TEXT NOT NULL,
@@ -89,10 +95,12 @@ val MIGRATION_6_7 = object : Migration(6, 7) {
                 image TEXT NOT NULL,
                 listOfDivision TEXT NOT NULL
             )
-            """)
+            """
+            )
 
             // Pega os dados da tabela antiga
-             cursor = database.query("SELECT id, name, description, image, listOfDivision FROM workout")
+            cursor =
+                database.query("SELECT id, name, description, image, listOfDivision FROM workout")
 
             // Insere os dados convertidos na tabela temporária
             while (cursor.moveToNext()) {
@@ -103,13 +111,15 @@ val MIGRATION_6_7 = object : Migration(6, 7) {
                 val oldListOfExercises = cursor.getString(4) // Lista JSON
 
                 // Converte a lista JSON para uma lista de IDs
-                    val listOfDivision = convertJsonToListOfIds2(oldListOfExercises)
+                val listOfDivision = convertJsonToListOfIds2(oldListOfExercises)
 
                 // Insere na tabela temporária
-                database.execSQL("""
+                database.execSQL(
+                    """
             INSERT INTO workout_temp (id, name, description, image, listOfDivision)
             VALUES (?, ?, ?, ?, ?)
-            """, arrayOf(id, name, description, image, listOfDivision))
+            """, arrayOf(id, name, description, image, listOfDivision)
+                )
             }
 
             cursor.close()
@@ -125,6 +135,7 @@ val MIGRATION_6_7 = object : Migration(6, 7) {
         }
 
     }
+
     // Função para converter lista JSON em uma lista de IDs
     private fun convertJsonToListOfIds(json: String): String {
         // Supondo que você tenha uma biblioteca JSON como Gson ou Moshi

@@ -13,9 +13,9 @@
         android:id="@+id/icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:paddingTop="10dp"
-        app:layout_constraintBottom_toTopOf="@id/trainings"
-        android:gravity="center">
+        app:layout_constraintBottom_toTopOf="@id/trainings">
 
         <ImageView
             android:id="@+id/fyt_icon"

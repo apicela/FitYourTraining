@@ -6,16 +6,13 @@ import com.apicela.training.models.Execution
 import com.apicela.training.models.extra.ExecutionInfo
 import com.apicela.training.models.extra.Info
 import com.apicela.training.ui.activitys.HomeActivity
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -26,7 +23,6 @@ class ExecutionService(private val db: Database = HomeActivity.DATABASE) {
         withContext(Dispatchers.IO) {
             db.executionDao().insert(execution)
         }
-        Log.d("Exercise", "Exercise added to database")
     }
 
     suspend fun deleteById(id: String) {
@@ -114,10 +110,14 @@ class ExecutionService(private val db: Database = HomeActivity.DATABASE) {
 //        Long timestamp =
 //    }
 
-    suspend fun getExecutionsFromExerciseIdPastMonths(exerciseId: String, monthsAgo: Int): List<ExecutionInfo> {
+    suspend fun getExecutionsFromExerciseIdPastMonths(
+        exerciseId: String,
+        monthsAgo: Int
+    ): List<ExecutionInfo> {
         // Calcular a data em milissegundos referente a monthsAgo
         val monthsAgoDate = LocalDate.now().minus(monthsAgo.toLong(), ChronoUnit.MONTHS)
-        val monthsAgoInMillis = monthsAgoDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val monthsAgoInMillis =
+            monthsAgoDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
         // Obter a lista de execuções do banco de dados
         val executionsPastMonthAsExecutionRawList = withContext(Dispatchers.IO) {
@@ -132,11 +132,8 @@ class ExecutionService(private val db: Database = HomeActivity.DATABASE) {
                     list = infos.map { Info(it.kg, it.repetitions) }
                 )
             }
-        Log.d("ExecutionService", "Executions: $list")
-
         return list
     }
-
 
 
 }

@@ -15,11 +15,12 @@ import java.util.TimeZone
 class Components {
     companion object {
 
-        fun createDateByString(dateString : String) : Date{
+        fun createDateByString(dateString: String): Date {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-            val date : Date = dateFormat.parse(dateString)
+            val date: Date = dateFormat.parse(dateString)
             return date;
         }
+
         fun showDatePicker(dateTimeText: EditText, context: Context) {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
