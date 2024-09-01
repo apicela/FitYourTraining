@@ -66,7 +66,9 @@ class StatisticsActivity : AppCompatActivity() {
         }
 
         exerciseAutoComplete.setOnItemClickListener { parent, view, position, id ->
-            selectedExercise = exerciseItems[position]
+            Log.d("Statistics", " parent: ${parent.getItemAtPosition(position)}")
+            selectedExercise = exerciseItems.find{ it.name == parent.getItemAtPosition(position) }!!
+            Log.d("Statistics", "exercise : $selectedExercise")
             CoroutineScope(Dispatchers.Main).launch {
                 try {
                     val chartType = UtilsComponents.getSpinnerSelectedItem(spinnerGraphType)
@@ -151,12 +153,13 @@ class StatisticsActivity : AppCompatActivity() {
         Log.d("Statistics", "itemsList: ${itemsList}")
         val listWithFilter: List<ExecutionRaw> = itemsList.mapNotNull { item ->
             when (filter) {
-                "MODA" -> item.convertToMaxWeight()
+                "MODA" -> item.convertToModeOrMaxWeight()
                 "MAX" -> item.convertToMaxWeight()
                 "MÉDIA" -> item.convertToAverage()
                 else -> null
             }
         }
+        Log.d("Statistics", "listWithFilter : $listWithFilter")
 
         if (chartType == "BARRAS") {
             Log.d("Statistics", "BARRAS")
@@ -252,7 +255,8 @@ class StatisticsActivity : AppCompatActivity() {
         val entriesWeight = mutableListOf<BarEntry>()
         val entriesRepetitions = mutableListOf<BarEntry>()
         itemsList.forEach {
-            val month = it.month.split("-")[1]
+            var month = it.month.split("-")[1].toFloat()
+            if(month < 10) month = month%10;
             entriesWeight.add(BarEntry(month.toFloat(), it.kg))
             entriesRepetitions.add(BarEntry(month.toFloat(), it.repetitions))
         }
@@ -317,65 +321,6 @@ class StatisticsActivity : AppCompatActivity() {
             resources.getColor(R.color.main_color, theme),
             resources.getColor(R.color.light_yellow, theme)
         ) // Gradiente
-    }
-
-    private fun updateGraphs(barChart: LineChart, itemsList : List<ExecutionRaw>) {
-
-        val entries = mutableListOf<Entry>()
-        var i = 8f;
-        itemsList.forEach {
-            var month : Float = it.month.split("-")[1].toFloat()
-            if(month < 10) month = month%10
-            Log.d("Statistics", "month: ${month}")
-            entries.add(Entry(i, it.kg))
-            i--;
-        }
-
-
-//        entries.add(Entry(4f, 15f))
-//        entries.add(Entry(5f, 18f))
-//        entries.add(Entry(6f, 20f))
-//        entries.add(Entry(7f, 22f))
-//        entries.add(Entry(8f, 22f))
-//        entries.add(Entry(9f, 24f))
-
-
-        // Criação do DataSet
-        val lineDataSet = LineDataSet(entries, "Exemplo de Gráfico de Linhas")
-        lineDataSet.color = resources.getColor(R.color.main_color, theme)
-        lineDataSet.valueTextColor = Color.WHITE
-        lineDataSet.valueTextSize = 16f
-        lineDataSet.setCircleColor(Color.BLACK)
-        lineDataSet.circleRadius = 5f
-        lineDataSet.lineWidth = 3f
-        lineDataSet.setDrawFilled(true)
-        lineDataSet.fillColor = resources.getColor(R.color.main_color, theme)
-        lineDataSet.fillAlpha = 90
-
-        // Configurando o LineData
-        val lineData = LineData(lineDataSet)
-        barChart.data = lineData
-
-        // Estilo do gráfico
-        barChart.description.isEnabled = false
-        barChart.setBackgroundColor(resources.getColor(R.color.main_background, theme))
-        barChart.setDrawGridBackground(false)
-        barChart.setTouchEnabled(true)
-        barChart.setPinchZoom(true)
-
-        // Configurações do eixo X
-        val xAxis = barChart.xAxis
-        val leftAxis = barChart.axisLeft
-
-        configureXandYaxis(xAxis, leftAxis)
-
-        // Desabilita o eixo Y direito
-        barChart.axisRight.isEnabled = false
-        // Animação do gráfico
-        barChart.animateX(500)
-
-        // Atualiza o gráfico
-        barChart.invalidate()
     }
 
     private fun configureXandYaxis(xAxis: XAxis?, leftAxis: YAxis?) {

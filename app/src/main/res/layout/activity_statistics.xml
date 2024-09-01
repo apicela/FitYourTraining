@@ -63,10 +63,10 @@
             android:id="@+id/spinnerGraphType"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="20dp"
             android:layout_weight="1"
             android:background="@drawable/pedido_field"
             android:gravity="center"
+            android:layout_marginEnd="10dp"
             android:textColor="@color/main_color"
             android:textColorHint="@color/main_color"
             android:textSize="15dp" />
@@ -79,6 +79,7 @@
             android:layout_weight="1"
             android:background="@drawable/pedido_field"
             android:gravity="center"
+            android:layout_marginEnd="10dp"
             android:textColor="@color/main_color"
             android:textColorHint="@color/main_color"
             android:textSize="15dp" />
@@ -91,6 +92,8 @@
             android:layout_weight="1"
             android:background="@drawable/pedido_field"
             android:gravity="center"
+            android:layout_marginEnd="10dp"
+
             android:textColor="@color/main_color"
             android:textColorHint="@color/main_color"
             android:textSize="15dp" />
