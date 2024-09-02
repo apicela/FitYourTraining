@@ -1,5 +1,7 @@
 package com.apicela.training.models.extra
 
+import android.util.Log
+
 data class ExecutionInfo(
     val month: String,
     val list: List<Info>
@@ -7,43 +9,44 @@ data class ExecutionInfo(
     fun convertToAverage(): ExecutionRaw? {
         // Função para calcular a média
         fun <T : Number> calculateAverage(values: List<T>): Double {
-            return values.sumOf { it.toDouble() } / values.size
+            val avg = (values.sumOf { it.toDouble() } / values.size)
+             return String.format("%.2f", avg).toDouble()
         }
 
         // Extrai os valores de kg e repetitions da lista e calcula a média
-        val avgKg = calculateAverage(list.map { it.kg })
+        val avgKg = calculateAverage(list.map { it.kg }).toFloat()
         val avgRepetitions = calculateAverage(list.map { it.repetitions }).toFloat()
-        val info = Info(avgKg.toFloat(), avgRepetitions)
+        val info = Info(avgKg, avgRepetitions)
         return ExecutionRaw(month, info.kg, info.repetitions)
     }
 
     fun convertToMaxWeight(): ExecutionRaw? {
-        val info = list.maxBy { info -> info.kg  }
+        val info = list.maxWith(compareBy<Info> { it.kg }.thenBy { it.repetitions })
         return ExecutionRaw(month, info.kg, info.repetitions)
     }
 
     fun convertToModeOrMaxWeight(): ExecutionRaw? {
         // Cria um mapa para contar as ocorrências de cada Info
-        val infoCountMap = mutableMapOf<Info, Int>()
+        val infoCountMap = mutableMapOf<Float, Int>()
 
         // Preenche o mapa com as contagens
         list.forEach { info ->
-            infoCountMap[info] = infoCountMap.getOrDefault(info, 0) + 1
+            infoCountMap[info.kg] = infoCountMap.getOrDefault(info.kg, 0) + 1
         }
+        Log.d("ExecutionSubClass", "infoCountMap: $infoCountMap")
 
         // Encontra o maior valor de contagem
-        val maxCount = infoCountMap.values.maxOrNull() ?: return null
-
-        // Filtra os Info que possuem a maior contagem
-        val mostFrequentInfos = infoCountMap.filter { it.value == maxCount }.keys
-
-        // Se houver apenas um Info com a maior contagem, retorna-o
-        val info = if (mostFrequentInfos.size == 1) {
-            mostFrequentInfos.first()
-        } else {
-            mostFrequentInfos.maxByOrNull { it.kg }  // Caso contrário, retorna o Info com o maior valor de kg
+        val kgMode = infoCountMap.maxWithOrNull(compareBy<Map.Entry<Float, Int>> { it.value }
+            .thenBy { it.key })?.key
+        val repsCountMap = mutableMapOf<Float, Int>()
+        list.forEach {
+            if(it.kg == kgMode){
+                repsCountMap[it.repetitions] = repsCountMap.getOrDefault(it.repetitions, 0) + 1
+            }
         }
-
+        val repsMode =  repsCountMap.maxBy { it.value }.key
+        val info = Info(kgMode!!, repsMode)
+        Log.d("ExecutionSubClass", "info: $info")
         return info?.let { ExecutionRaw(month, it.kg, it.repetitions) }
     }
 }

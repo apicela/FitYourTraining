@@ -18,6 +18,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import java.util.Date
+import java.util.UUID
 
 class ExerciseServiceTest {
     private lateinit var db: Database
@@ -45,22 +46,47 @@ class ExerciseServiceTest {
             val execution = ExecutionBuilder()
                 .exerciseId(exercise.id)
                 .date(date)
+                .kg(1f)
                 .build();
             runBlocking {        executionService.addExecutionToDatabase(execution) }
 
             val execution1 = ExecutionBuilder()
                 .exerciseId(exercise.id)
                 .date(date)
+                .kg(500f)
+                .repetitions(1)
                 .build();
             runBlocking {    executionService.addExecutionToDatabase(execution1) }
+            execution1.id = UUID.randomUUID().toString();
+            runBlocking {    executionService.addExecutionToDatabase(execution1) }
+            execution1.id = UUID.randomUUID().toString();
+            runBlocking {    executionService.addExecutionToDatabase(execution1) }
+            execution1.id = UUID.randomUUID().toString();
+            runBlocking {    executionService.addExecutionToDatabase(execution1) }
+
+            val execution2 = ExecutionBuilder()
+                .exerciseId(exercise.id)
+                .date(date)
+                .kg(500f)
+                .repetitions(6)
+                .build();
+            runBlocking {        executionService.addExecutionToDatabase(execution2) }
+            execution2.id = UUID.randomUUID().toString();
+            runBlocking {        executionService.addExecutionToDatabase(execution2) }
+            execution2.id = UUID.randomUUID().toString();
+            runBlocking {        executionService.addExecutionToDatabase(execution2) }
+
         }
 
         val list : List<ExecutionInfo> = runBlocking { exerciseService.getExerciseInfoPastMonths(exercise.id, 6)}
-        val convertedList = list.map{ it -> it.convertToModeOrMaxWeight()}
+//        val convertedList = list.map{ it -> it.convertToModeOrMaxWeight()}
         Log.d("ExerciseServiceTest", "$list")
-        Log.d("ExerciseServiceTest", "$convertedList")
+        val executionRawMax = list[0].convertToModeOrMaxWeight()
+//        Log.d("ExerciseServiceTest", "$convertedList")
         Assert.assertNotEquals(0, list.size)
-        Assert.assertNotEquals(0, convertedList.size)
+        Assert.assertEquals(500f, executionRawMax?.kg)
+        Assert.assertEquals(1f, executionRawMax?.repetitions)
+//        Assert.assertNotEquals(0, convertedList.size)
 
     }
     @After

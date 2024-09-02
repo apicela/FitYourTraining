@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -68,6 +69,9 @@ class StatisticsActivity : AppCompatActivity() {
         exerciseAutoComplete.setOnItemClickListener { parent, view, position, id ->
             Log.d("Statistics", " parent: ${parent.getItemAtPosition(position)}")
             selectedExercise = exerciseItems.find{ it.name == parent.getItemAtPosition(position) }!!
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(exerciseAutoComplete.windowToken, 0)
+
             Log.d("Statistics", "exercise : $selectedExercise")
             CoroutineScope(Dispatchers.Main).launch {
                 try {
@@ -84,6 +88,9 @@ class StatisticsActivity : AppCompatActivity() {
 
         }
 
+        exerciseAutoComplete.setOnClickListener {
+            exerciseAutoComplete.setText("")
+        }
         spinnerPastMonths.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -91,7 +98,7 @@ class StatisticsActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                Log.d("Statistics", "spinnerPasthMonthsClicked")
+                Log.d("Statistics", "spinnerPastMonthsClicked")
                 if (::selectedExercise.isInitialized) {
                     val selectedItem = parent.getItemAtPosition(position).toString()
                     val selectedMonth = selectedItem.split(" ")[0].toInt()
