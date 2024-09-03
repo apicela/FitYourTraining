@@ -1,21 +1,36 @@
 package com.apicela.training.models.extra
 
 import android.util.Log
+import java.text.NumberFormat
+import java.text.ParseException
+import java.util.Locale
 
 data class ExecutionInfo(
     val month: String,
     val list: List<Info>
 ) {
     fun convertToAverage(): ExecutionRaw? {
+        fun formatNumber(value: Double, locale: Locale = Locale.US): Float {
+            val numberFormat = NumberFormat.getNumberInstance(locale)
+            numberFormat.maximumFractionDigits = 2
+            numberFormat.minimumFractionDigits = 2
+            return numberFormat.format(value).toFloat()
+        }
+
+
         // Função para calcular a média
-        fun <T : Number> calculateAverage(values: List<T>): Double {
-            val avg = (values.sumOf { it.toDouble() } / values.size)
-             return String.format("%.2f", avg).toDouble()
+        fun <T : Number> calculateAverage(values: List<T>): Float {
+            val avg = values.sumOf { it.toDouble() } / values.size
+            // Formata o número com duas casas decimais usando o Locale padrão do dispositivo
+            val formattedAvg = formatNumber(avg)
+            Log.d("ExecutionSubClass", "formattedAvg: $formattedAvg")
+            // Tenta converter o valor formatado de volta para Double usando o Locale padrão
+            return formattedAvg
         }
 
         // Extrai os valores de kg e repetitions da lista e calcula a média
-        val avgKg = calculateAverage(list.map { it.kg }).toFloat()
-        val avgRepetitions = calculateAverage(list.map { it.repetitions }).toFloat()
+        val avgKg = calculateAverage(list.map { it.kg })
+        val avgRepetitions = calculateAverage(list.map { it.repetitions })
         val info = Info(avgKg, avgRepetitions)
         return ExecutionRaw(month, info.kg, info.repetitions)
     }

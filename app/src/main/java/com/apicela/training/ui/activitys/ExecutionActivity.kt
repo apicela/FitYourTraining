@@ -1,12 +1,6 @@
 package com.apicela.training.ui.activitys
 
-//class ExecutionActivity : AppCompatActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_execution)
-//    }
-//}
-
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -33,6 +27,7 @@ class ExecutionActivity : AppCompatActivity() {
     private lateinit var recyclerViewExecutions: RecyclerView // Add this line
     private lateinit var plusButton: ImageButton
     private lateinit var backButton: Button
+    private lateinit var statsButton: ImageButton
     private lateinit var edit: Button
     private lateinit var nameText: TextView
     private lateinit var imageExercise: ShapeableImageView
@@ -96,6 +91,12 @@ class ExecutionActivity : AppCompatActivity() {
             executionAdapter.setEditing(editMode)
             editMode = !editMode
         }
+
+        statsButton.setOnClickListener {
+            val intent = Intent(this@ExecutionActivity, StatisticsActivity::class.java)
+            intent.putExtra("exercise_id", exerciseId)
+            this.startActivity(intent)
+        }
         timerLayout.setOnClickListener {
             val dialog = EditTimerDialog()
             if (this is FragmentActivity) {
@@ -126,6 +127,7 @@ class ExecutionActivity : AppCompatActivity() {
         nameText = findViewById(R.id.name)
         imageExercise = findViewById(R.id.image)
         timerLayout = findViewById(R.id.timerLayout)
+        statsButton = findViewById(R.id.stats_button)
     }
 }
 

@@ -98,12 +98,25 @@
             android:textSize="15dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/labelYAxis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carga (kg)"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/graph_weight_barchart"
+        app:layout_constraintBottom_toBottomOf="@id/graph_weight_barchart"
+        app:layout_constraintEnd_toStartOf="@id/graph_weight_barchart"
+        android:rotation="-90"
+        />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/graph_weight_barchart"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="invisible"
+        android:layout_marginStart="22sp"
         app:layout_constraintBottom_toTopOf="@+id/graph_repetitions_barchart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,27 +126,44 @@
         android:id="@+id/graph_weight_linechart"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/graph_repetitions_linechart"
+        android:visibility="invisible"
+        android:layout_marginStart="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/graph_repetitions_barchart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnersLayout" />
+        app:layout_constraintTop_toBottomOf="@id/spinnersLayout"/>
 
+
+    <TextView
+        android:id="@+id/labelYAxis2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Número de repetições"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/graph_repetitions_barchart"
+        app:layout_constraintBottom_toBottomOf="@id/graph_repetitions_barchart"
+        app:layout_constraintEnd_toStartOf="@id/graph_repetitions_barchart"
+        android:rotation="-90"
+        />
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/graph_repetitions_linechart"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="invisible"
+        android:layout_marginStart="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/graph_weight_linechart" />
+        app:layout_constraintTop_toBottomOf="@id/graph_weight_barchart"
+ />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/graph_repetitions_barchart"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="invisible"
+        android:layout_marginStart="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -28,16 +28,41 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(project.findProperty("KEYSTORE_FILE") as String? ?: throw IllegalArgumentException("KEYSTORE_FILE property not set"))
+            storePassword = project.findProperty("KEYSTORE_PASSWORD") as String? ?: throw IllegalArgumentException("KEYSTORE_PASSWORD property not set")
+            keyAlias = project.findProperty("KEY_ALIAS") as String? ?: throw IllegalArgumentException("KEY_ALIAS property not set")
+            keyPassword = project.findProperty("KEY_PASSWORD") as String? ?: throw IllegalArgumentException("KEY_PASSWORD property not set")
+        }
+
+        getByName("debug") {
+            storeFile = file(project.findProperty("KEYSTORE_FILE") as String? ?: throw IllegalArgumentException("DEBUG_KEYSTORE_FILE property not set"))
+            storePassword = project.findProperty("KEYSTORE_PASSWORD") as String? ?: throw IllegalArgumentException("DEBUG_KEYSTORE_PASSWORD property not set")
+            keyAlias = project.findProperty("KEY_ALIAS") as String? ?: throw IllegalArgumentException("DEBUG_KEY_ALIAS property not set")
+            keyPassword = project.findProperty("KEY_PASSWORD") as String? ?: throw IllegalArgumentException("DEBUG_KEY_PASSWORD property not set")
+        }
+    }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            signingConfig = signingConfigs.getByName("release")
+        }
+
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+//    buildTypes {
+//        getByName("release") {
+//            isMinifyEnabled = false
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

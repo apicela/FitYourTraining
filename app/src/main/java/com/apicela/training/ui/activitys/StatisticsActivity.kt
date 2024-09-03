@@ -21,6 +21,7 @@ import com.apicela.training.utils.UtilsComponents
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
@@ -29,11 +30,12 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface
+import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.DecimalFormat
 
 class StatisticsActivity : AppCompatActivity() {
     private lateinit var backButton: Button
@@ -53,40 +55,56 @@ class StatisticsActivity : AppCompatActivity() {
     private val GRAPH_TYPES = listOf("BARRAS", "LINHAS")
     private val PAST_MONTHS = listOf("3 MESES", "6 MESES", "9 MESES", "12 MESES")
     private val FILTER_TYPE = listOf("MODA", "MÉDIA", "MAX")
+    private var  exerciseId : String?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        exerciseId = intent.getStringExtra("exercise_id")
         bindViews()
         setUpVariables(this)
-        setUpOnChangeAutoComplete()
+        setUpOnChange()
     }
 
-    private fun setUpOnChangeAutoComplete() {
+    private fun setUp() {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val chartType = UtilsComponents.getSpinnerSelectedItem(spinnerGraphType)
+                itemsList = withContext(Dispatchers.IO) {
+                    exerciseService.getExerciseInfoPastMonths(selectedExercise.id, UtilsComponents.getSpinnerSelectedItem(spinnerPastMonths).split(" ")[0].toInt())
+                }
+                updateGraphs(itemsList, chartType, UtilsComponents.getSpinnerSelectedItem(spinnerFilter))
+            } catch (e: Exception) {
+                Log.e("Statistics", "Error fetching data", e)
+            }
+        }
+    }
+
+
+    private fun setUpOnChange() {
         backButton.setOnClickListener {
             finish()
         }
+            exerciseAutoComplete.setOnItemClickListener { parent, view, position, id ->
+                Log.d("Statistics", " parent: ${parent.getItemAtPosition(position)}")
+                selectedExercise = exerciseItems.find{ it.name == parent.getItemAtPosition(position) }!!
+                val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(exerciseAutoComplete.windowToken, 0)
 
-        exerciseAutoComplete.setOnItemClickListener { parent, view, position, id ->
-            Log.d("Statistics", " parent: ${parent.getItemAtPosition(position)}")
-            selectedExercise = exerciseItems.find{ it.name == parent.getItemAtPosition(position) }!!
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(exerciseAutoComplete.windowToken, 0)
-
-            Log.d("Statistics", "exercise : $selectedExercise")
-            CoroutineScope(Dispatchers.Main).launch {
-                try {
-                    val chartType = UtilsComponents.getSpinnerSelectedItem(spinnerGraphType)
-                    itemsList = withContext(Dispatchers.IO) {
-                        exerciseService.getExerciseInfoPastMonths(selectedExercise.id, UtilsComponents.getSpinnerSelectedItem(spinnerPastMonths).split(" ")[0].toInt())
+                Log.d("Statistics", "exercise : $selectedExercise")
+                CoroutineScope(Dispatchers.Main).launch {
+                    try {
+                        val chartType = UtilsComponents.getSpinnerSelectedItem(spinnerGraphType)
+                        itemsList = withContext(Dispatchers.IO) {
+                            exerciseService.getExerciseInfoPastMonths(selectedExercise.id, UtilsComponents.getSpinnerSelectedItem(spinnerPastMonths).split(" ")[0].toInt())
+                        }
+                        updateGraphs(itemsList, chartType, UtilsComponents.getSpinnerSelectedItem(spinnerFilter))
+                    } catch (e: Exception) {
+                        // Lidar com exceções, se necessário
+                        Log.e("Statistics", "Error fetching data", e)
                     }
-                    updateGraphs(itemsList, chartType, UtilsComponents.getSpinnerSelectedItem(spinnerFilter))
-                } catch (e: Exception) {
-                    // Lidar com exceções, se necessário
-                    Log.e("Statistics", "Error fetching data", e)
                 }
-            }
-
         }
+
 
         exerciseAutoComplete.setOnClickListener {
             exerciseAutoComplete.setText("")
@@ -102,7 +120,7 @@ class StatisticsActivity : AppCompatActivity() {
                 if (::selectedExercise.isInitialized) {
                     val selectedItem = parent.getItemAtPosition(position).toString()
                     val selectedMonth = selectedItem.split(" ")[0].toInt()
-                    CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.Main).launch {
                         itemsList = exerciseService.getExerciseInfoPastMonths(
                             selectedExercise.id,
                             selectedMonth
@@ -176,9 +194,7 @@ class StatisticsActivity : AppCompatActivity() {
             Log.d("Statistics", "LINHAS")
             setBarChartAsVisible(false)
             updateLineChart(listWithFilter)
-//            updateGraphs(chartWeightLine, listWithFilter)
-//            updateGraphs(chartRepetitionsLine,listWithFilter)
-        }
+      }
     }
 
     private fun setBarChartAsVisible(barIsVisible: Boolean) {
@@ -187,12 +203,12 @@ class StatisticsActivity : AppCompatActivity() {
             chartWeightBar.visibility = View.VISIBLE
             chartRepetitionsBar.visibility = View.VISIBLE
             // line chart gone
-            chartWeightLine.visibility = View.GONE
-            chartRepetitionsLine.visibility = View.GONE
+            chartWeightLine.visibility = View.INVISIBLE
+            chartRepetitionsLine.visibility = View.INVISIBLE
         } else {
             // bar chart gone
-            chartWeightBar.visibility = View.GONE
-            chartRepetitionsBar.visibility = View.GONE
+            chartWeightBar.visibility = View.INVISIBLE
+            chartRepetitionsBar.visibility = View.INVISIBLE
             // line chart visible
             chartWeightLine.visibility = View.VISIBLE
             chartRepetitionsLine.visibility = View.VISIBLE
@@ -214,8 +230,8 @@ class StatisticsActivity : AppCompatActivity() {
         Log.d("Statistics", "entries weight: ${entriesWeight}")
         Log.d("Statistics", "entries reps: ${entriesRepetitions}")
 
-        val weightLineDataSet = LineDataSet(entriesWeight, "WEIGHT")
-        val repetitionsLineDataSet = LineDataSet(entriesRepetitions, "REPETITIONS")
+        val weightLineDataSet = LineDataSet(entriesWeight, "MESES x KG")
+        val repetitionsLineDataSet = LineDataSet(entriesRepetitions, "MESES x REPETIÇÕES")
 
         configureLineDataSet(weightLineDataSet)
         configureLineDataSet(repetitionsLineDataSet)
@@ -255,10 +271,16 @@ class StatisticsActivity : AppCompatActivity() {
         lineDataSet.setDrawFilled(true)
         lineDataSet.fillColor = resources.getColor(R.color.main_color, theme)
         lineDataSet.fillAlpha = 90
+        lineDataSet.valueFormatter = object : ValueFormatter() {
+            private val format = DecimalFormat("###.##") // Define o formato para 2 casas decimais
+
+            override fun getFormattedValue(value: Float): String {
+                return format.format(value)
+            }
+        }
     }
 
     private fun updateBarChart(itemsList: List<ExecutionRaw>) {
-        Log.d("Statistics", "updateBarChart called!")
         val entriesWeight = mutableListOf<BarEntry>()
         val entriesRepetitions = mutableListOf<BarEntry>()
         itemsList.forEach {
@@ -267,8 +289,10 @@ class StatisticsActivity : AppCompatActivity() {
             entriesWeight.add(BarEntry(month.toFloat(), it.kg))
             entriesRepetitions.add(BarEntry(month.toFloat(), it.repetitions))
         }
-        val weightBarDataSet = BarDataSet(entriesWeight, "WEIGHT")
-        val repetitionsBarDataSet = BarDataSet(entriesRepetitions, "WEIGHT")
+        Log.d("Statistics", "weight: $entriesWeight")
+        Log.d("Statistics", "reps: $entriesRepetitions")
+        val weightBarDataSet = BarDataSet(entriesWeight, "MESES x KG")
+        val repetitionsBarDataSet = BarDataSet(entriesRepetitions, "MESES x REPETIÇÕES")
         
         configureBarDataSet(weightBarDataSet)
         configureBarDataSet(repetitionsBarDataSet)
@@ -298,32 +322,43 @@ class StatisticsActivity : AppCompatActivity() {
         }
     }
 
-    private fun configureChartStyle(chart: ChartInterface) {
+    private fun configureChartStyle(chart: Chart<*>) {
+        when (chart) {
+            is BarChart, is LineChart -> {
+                (chart as? BarChart ?: chart as? LineChart)?.apply {
+                    setBackgroundColor(resources.getColor(R.color.main_background, theme))
+                    setDrawGridBackground(false)
+                    setTouchEnabled(true)
+                    setPinchZoom(true)
+                    chart.description.isEnabled = false
+                    chart.legend.isEnabled  = false
+//                    chart.legend.textSize = 18f
+//                    chart.legend.textColor = Color.WHITE
+//                    chart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+//                    chart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+                }
+            }
+        }
         if(chart is BarChart){
-            chart.setBackgroundColor(resources.getColor(R.color.main_background, theme))
-            chart.setDrawGridBackground(false)
-            chart.description.isEnabled = false
-            chart.setTouchEnabled(true)
-            chart.setPinchZoom(true)
             chart.setDrawBarShadow(false)
             chart.setFitBars(true)
-        } else if(chart is LineChart){
-            chart.description.isEnabled = false
-            chart.setBackgroundColor(resources.getColor(R.color.main_background, theme))
-            chart.setDrawGridBackground(false)
-            chart.setTouchEnabled(true)
-            chart.setPinchZoom(true)
         }
-
     }
 
     private fun configureBarDataSet(barDataSet: BarDataSet) {
-        barDataSet.color = Color.BLUE
+        barDataSet.color = Color.YELLOW
         barDataSet.valueTextColor = Color.WHITE
-        barDataSet.valueTextSize = 16f
+        barDataSet.valueTextSize = 22f
         barDataSet.setDrawValues(true)
         barDataSet.barBorderWidth = 1f
         barDataSet.barShadowColor = Color.DKGRAY
+        barDataSet.valueFormatter = object : ValueFormatter() {
+            private val format = DecimalFormat("###.##") // Define o formato para 2 casas decimais
+
+            override fun getFormattedValue(value: Float): String {
+                return format.format(value)
+            }
+        }
         barDataSet.setGradientColor(
             resources.getColor(R.color.main_color, theme),
             resources.getColor(R.color.light_yellow, theme)
@@ -343,19 +378,16 @@ class StatisticsActivity : AppCompatActivity() {
         leftAxis?.gridColor = Color.GRAY
         leftAxis?.textColor = Color.WHITE
         leftAxis?.textSize = 12f
+//        leftAxis?.valueFormatter = object : ValueFormatter() {
+//            override fun getFormattedValue(value: Float): String {
+//                return "$value kg" // Adicione seu texto de legenda aqui
+//            }
+//        }
     }
 
 
     private fun setUpVariables(context: Context) {
-        CoroutineScope(Dispatchers.IO).launch {
-            exerciseItems = exerciseService.getAllExercises()
-            withContext(Dispatchers.Main) {
-                arrayAdapter =
-                    ArrayAdapter(context, R.layout.auto_complete, exerciseItems.map { it.name })
-                exerciseAutoComplete.setAdapter(arrayAdapter)
-                // arrayAdapter.setDropDownViewResource(R.layout.dropdown_muscle_type)
-            }
-        }
+
         val graphTypeAdapter = ArrayAdapter(this, R.layout.transparent_layout_centered, GRAPH_TYPES)
         graphTypeAdapter.setDropDownViewResource(R.layout.dropdown_muscle_type)
         spinnerGraphType.adapter = graphTypeAdapter
@@ -369,6 +401,22 @@ class StatisticsActivity : AppCompatActivity() {
             ArrayAdapter(this, R.layout.transparent_layout_centered, FILTER_TYPE)
         filterAdapter.setDropDownViewResource(R.layout.dropdown_muscle_type)
         spinnerFilter.adapter = filterAdapter
+        CoroutineScope(Dispatchers.IO).launch {
+            exerciseItems = exerciseService.getAllExercises()
+            selectedExercise = if(exerciseId == null){
+                exerciseItems[0]
+            } else {
+                exerciseService.getExerciseById(exerciseId!!)
+            }
+            withContext(Dispatchers.Main) {
+                arrayAdapter =
+                    ArrayAdapter(context, R.layout.auto_complete, exerciseItems.map { it.name })
+                exerciseAutoComplete.setAdapter(arrayAdapter)
+            }
+            exerciseAutoComplete.setText(selectedExercise.name)
+            setUp()
+        }
+
     }
 
 
