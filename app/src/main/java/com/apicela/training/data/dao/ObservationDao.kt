@@ -10,15 +10,15 @@ import com.apicela.training.models.Observation
 @Dao
 interface ObservationDao {
     @Query("SELECT * FROM observation WHERE strftime('%d/%m/%Y', date / 1000, 'unixepoch') =  :date")
-    fun getObservationByDate(date: String): Observation?
+    suspend fun getObservationByDate(date: String): Observation?
 
     @Query("SELECT * FROM observation WHERE date = :date")
-    fun getObservationByDate(date: Long): Observation?
+    suspend fun getObservationByDate(date: Long): Observation?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(observation: Observation)
+    suspend fun insert(observation: Observation)
 
     @Update
-    fun update(observation: Observation)
+    suspend fun update(observation: Observation)
 
 }

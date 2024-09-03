@@ -2,11 +2,6 @@ package com.apicela.training.ui.utils
 
 import android.content.Context
 import android.os.CountDownTimer
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
 import com.apicela.training.Apicela
 import com.apicela.training.R
 
@@ -30,7 +25,7 @@ class Timer(private val context: Context) {
     var onTickCallback: ((Long) -> Unit)? = null
     var onCountingChangedCallback: ((Boolean) -> Unit)? = null
 
-     fun startTimer() {
+    fun startTimer() {
         if (!isValidTimeFormat(Apicela.REST_TIMING)) return
         val milliseconds: Long = getMillisecondsFromTimeString(Apicela.REST_TIMING)
         counting = true
@@ -46,7 +41,7 @@ class Timer(private val context: Context) {
         }.start()
     }
 
-     fun stopTimer() {
+    fun stopTimer() {
         countDownTimer?.cancel()
         counting = false
     }

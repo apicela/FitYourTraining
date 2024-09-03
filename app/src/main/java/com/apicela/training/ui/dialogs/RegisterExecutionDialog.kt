@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
@@ -75,7 +74,7 @@ class RegisterExecutionDialog(
             val editTextAsDate = format.parse(editTextDate.text.toString()) as Date
             val date = Components.formatDateWithCurrentTime(editTextAsDate)
             if (executionId == null) {
-                val execution = Execution(repetitions, false, kg, exerciseId, date)
+                val execution = Execution(false, repetitions, kg, exerciseId, date)
                 runBlocking { executionService.addExecutionToDatabase(execution) }
             } else {
                 val execution = Execution(executionId, false, repetitions, kg, exerciseId, date)

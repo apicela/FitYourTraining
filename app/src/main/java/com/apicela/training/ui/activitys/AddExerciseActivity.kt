@@ -4,7 +4,10 @@ package com.apicela.training.ui.activitys
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +32,7 @@ class AddExerciseActivity : AppCompatActivity(), OnExerciseCheckedChangeListener
     private lateinit var exerciseAdapter: ExerciseAdapter
     private lateinit var backButton: Button
     private lateinit var addExerciseToWorkoutButton: AppCompatButton
+    private lateinit var searchView: SearchView
     private lateinit var exerciseListMap: Map<String, List<Exercise>>
     private lateinit var division: Division
     private var checkedItems: Int = 0
@@ -48,8 +52,34 @@ class AddExerciseActivity : AppCompatActivity(), OnExerciseCheckedChangeListener
         }
 
         setUpRecyclerView()
+        setUpSearch()
         setUpOnClick()
 
+
+    }
+
+    private fun setUpSearch() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(filter: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(filter: String): Boolean {
+                if (exerciseAdapter is ExerciseAdapter) {
+                    (exerciseAdapter as ExerciseAdapter).filterList(filter)
+                }
+                return true
+            }
+        })
+        val searchEditText = searchView.findViewById<View>(
+            searchView.context.resources.getIdentifier(
+                "android:id/search_src_text",
+                null,
+                null
+            )
+        ) as EditText
+        searchEditText.setHintTextColor(resources.getColor(R.color.white)) // Replace with desired color
+        searchEditText.setTextColor(resources.getColor(R.color.white))
 
     }
 
@@ -60,7 +90,7 @@ class AddExerciseActivity : AppCompatActivity(), OnExerciseCheckedChangeListener
         addExerciseToWorkoutButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 if (division != null) {
-                    val checkedItems = exerciseAdapter.getSelectedExercises().map{it.id}
+                    val checkedItems = exerciseAdapter.getSelectedExercises().map { it.id }
                     val newListExercises = (division.listOfExercises + checkedItems).distinct()
                     division.listOfExercises = newListExercises
                     exerciseService.divisionService.updateDivisionObject(division)
@@ -84,6 +114,7 @@ class AddExerciseActivity : AppCompatActivity(), OnExerciseCheckedChangeListener
         backButton = findViewById(R.id.back_button)
         addExerciseToWorkoutButton = findViewById(R.id.add_exercise_to_workout)
         recyclerView = findViewById(R.id.recyclerView)
+        searchView = findViewById<SearchView>(R.id.searchView)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

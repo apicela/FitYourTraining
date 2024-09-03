@@ -1,7 +1,5 @@
 package com.apicela.training.ui.activitys
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -10,12 +8,10 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.apicela.training.R
-import com.apicela.training.adapters.ExerciseItemAdapter
 import com.apicela.training.models.Exercise
 import com.apicela.training.models.extra.Metrics
 import com.apicela.training.models.extra.Muscle
 import com.apicela.training.services.ExerciseService
-import com.apicela.training.utils.Codes
 import com.apicela.training.utils.UtilsComponents
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,9 +47,9 @@ class CreateExercise : AppCompatActivity() {
         val metricsAdapter = ArrayAdapter(this, R.layout.transparent_layout, metricItems)
         metricsAdapter.setDropDownViewResource(R.layout.dropdown_muscle_type)
         metricTypeSpinner.adapter = metricsAdapter
-        var exerciseItem : Exercise?= null;
-        if(exerciseId != null){
-             exerciseItem = runBlocking { exerciseService.getExerciseById(exerciseId) }
+        var exerciseItem: Exercise? = null;
+        if (exerciseId != null) {
+            exerciseItem = runBlocking { exerciseService.getExerciseById(exerciseId) }
             exerciseName.setText("${exerciseItem.name}")
             imageUrl.setText("${exerciseItem.image}")
 
@@ -68,7 +64,7 @@ class CreateExercise : AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 val muscle = (UtilsComponents.getSpinnerSelectedItem(muscleTypeSpinner))
                 val metric = (UtilsComponents.getSpinnerSelectedItem(metricTypeSpinner))
-                if(exerciseId == null){
+                if (exerciseId == null) {
                     exerciseService.addExerciseToDatabase(
                         Exercise(
                             exerciseName.text.toString(),
@@ -78,11 +74,12 @@ class CreateExercise : AppCompatActivity() {
                         )
                     )
                 } else {
-                    if(exerciseItem != null){
+                    if (exerciseItem != null) {
                         exerciseItem.name = exerciseName.text.toString()
                         exerciseItem.image = imageUrl.text.toString()
                         exerciseItem.muscleType = Muscle.getMusclePTBRtoENG(muscle)!!
-                        exerciseItem.metricType =  Metrics.getMetricPTBRtoENG(metric)!!                    }
+                        exerciseItem.metricType = Metrics.getMetricPTBRtoENG(metric)!!
+                    }
                     exerciseService.updateExercise(exerciseItem!!)
                 }
             }

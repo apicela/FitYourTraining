@@ -1,5 +1,6 @@
 package com.apicela.training.services
 
+import com.apicela.training.data.Database
 import com.apicela.training.models.Observation
 import com.apicela.training.ui.activitys.HomeActivity
 import kotlinx.coroutines.Dispatchers
@@ -7,8 +8,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class ObservationService() {
-    val db = HomeActivity.DATABASE;
+class ObservationService(private val db: Database = HomeActivity.DATABASE) {
 
     suspend fun addObservation(observation: Observation) {
 //        Log.d("Observation", "Observation added to database + ${observation.toString()}")

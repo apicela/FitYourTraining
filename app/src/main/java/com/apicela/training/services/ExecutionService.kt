@@ -3,23 +3,26 @@ package com.apicela.training.services
 import android.util.Log
 import com.apicela.training.data.Database
 import com.apicela.training.models.Execution
+import com.apicela.training.models.extra.ExecutionInfo
+import com.apicela.training.models.extra.Info
 import com.apicela.training.ui.activitys.HomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
 
-class ExecutionService() {
-    private val db: Database = HomeActivity.DATABASE
+class ExecutionService(private val db: Database = HomeActivity.DATABASE) {
     val exerciseService: ExerciseService = ExerciseService()
 
     suspend fun addExecutionToDatabase(execution: Execution) {
         withContext(Dispatchers.IO) {
             db.executionDao().insert(execution)
         }
-        Log.d("Exercise", "Exercise added to database")
     }
 
     suspend fun deleteById(id: String) {
@@ -69,7 +72,7 @@ class ExecutionService() {
 
     suspend fun getAll(): List<Execution> {
         return withContext(Dispatchers.IO) {
-            db.executionDao().getAllExecution()
+            db.executionDao().getAll()
         }
     }
 
@@ -81,13 +84,13 @@ class ExecutionService() {
 
     suspend fun getLastInsertedExecution(id: String): Execution? {
         return withContext(Dispatchers.IO) {
-            db.executionDao().getLastInsertedExecution(id)
+            db.executionDao().getLastInserted(id)
         }
     }
 
     suspend fun getExecutionById(id: String): Execution? {
         return withContext(Dispatchers.IO) {
-            db.executionDao().getExecutionById(id)
+            db.executionDao().getById(id)
         }
     }
 
@@ -102,5 +105,35 @@ class ExecutionService() {
         }
         return response.drop(2).toString()
     }
+
+//    fun getKgDataForPastSixMonths(exerciseId: String, date: Date){
+//        Long timestamp =
+//    }
+
+    suspend fun getExecutionsFromExerciseIdPastMonths(
+        exerciseId: String,
+        monthsAgo: Int
+    ): List<ExecutionInfo> {
+        // Calcular a data em milissegundos referente a monthsAgo
+        val monthsAgoDate = LocalDate.now().minus(monthsAgo.toLong(), ChronoUnit.MONTHS)
+        val monthsAgoInMillis =
+            monthsAgoDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+        // Obter a lista de execuções do banco de dados
+        val executionsPastMonthAsExecutionRawList = withContext(Dispatchers.IO) {
+            db.executionDao().getExecutionsForPastMonths(exerciseId, monthsAgoInMillis)
+        }
+
+        // Agrupar por mês e mapear para o tipo ExecutionInfo
+        val list = executionsPastMonthAsExecutionRawList.groupBy { it.month }
+            .map { (monthYear, infos) ->
+                ExecutionInfo(
+                    month = monthYear,
+                    list = infos.map { Info(it.kg, it.repetitions) }
+                )
+            }
+        return list
+    }
+
 
 }

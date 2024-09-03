@@ -2,9 +2,171 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:orientation="vertical"
+    android:theme="@style/Theme.ApicelaTraining"
     tools:context=".ui.activitys.StatisticsActivity">
+
+    <LinearLayout
+        android:id="@+id/backLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="63dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="-36dp"
+            android:layout_marginTop="-1.5dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Voltar"
+            android:textColor="@color/main_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <AutoCompleteTextView
+        android:id="@+id/exerciseAutoComplete"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/pedido_field"
+        android:gravity="center"
+        android:hint="Nome do exercício"
+        android:textColor="@color/main_color"
+        android:textColorHint="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.65" />
+
+    <LinearLayout
+        android:id="@+id/spinnersLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingHorizontal="75dp"
+        app:layout_constraintTop_toBottomOf="@id/backLinearLayout">
+
+        <Spinner
+            android:id="@+id/spinnerGraphType"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="5dp"
+            android:background="@drawable/box_yellow_field"
+            android:gravity="center"
+            android:textColor="@color/main_color"
+            android:textColorHint="@color/main_color"
+            android:textSize="15dp" />
+
+        <Spinner
+            android:id="@+id/spinnerPastMonths"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="5dp"
+            android:background="@drawable/box_yellow_field"
+            android:gravity="center"
+            android:textColor="@color/main_color"
+            android:textColorHint="@color/main_color"
+            android:textSize="15dp" />
+
+        <Spinner
+            android:id="@+id/spinnerFilter"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="5dp"
+            android:background="@drawable/box_yellow_field"
+            android:gravity="center"
+            android:textColor="@color/main_color"
+            android:textColorHint="@color/main_color"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/labelYAxis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carga (kg)"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/graph_weight_barchart"
+        app:layout_constraintBottom_toBottomOf="@id/graph_weight_barchart"
+        app:layout_constraintEnd_toStartOf="@id/graph_weight_barchart"
+        android:rotation="-90"
+        />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/graph_weight_barchart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:layout_marginStart="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/graph_repetitions_barchart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnersLayout" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/graph_weight_linechart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:layout_marginStart="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/graph_repetitions_barchart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnersLayout"/>
+
+
+    <TextView
+        android:id="@+id/labelYAxis2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Número de repetições"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/graph_repetitions_barchart"
+        app:layout_constraintBottom_toBottomOf="@id/graph_repetitions_barchart"
+        app:layout_constraintEnd_toStartOf="@id/graph_repetitions_barchart"
+        android:rotation="-90"
+        />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/graph_repetitions_linechart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:layout_marginStart="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/graph_weight_barchart"
+ />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/graph_repetitions_barchart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:layout_marginStart="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/graph_weight_barchart" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

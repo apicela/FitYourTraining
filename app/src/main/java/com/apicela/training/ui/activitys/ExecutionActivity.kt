@@ -1,12 +1,6 @@
 package com.apicela.training.ui.activitys
 
-//class ExecutionActivity : AppCompatActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_execution)
-//    }
-//}
-
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -14,23 +8,17 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.apicela.training.Apicela
 import com.apicela.training.R
 import com.apicela.training.adapters.ExecutionAdapter
-import com.apicela.training.models.extra.Metrics
-import com.apicela.training.ui.dialogs.DeleteItemDialog
 import com.apicela.training.ui.dialogs.EditTimerDialog
 import com.apicela.training.ui.dialogs.RegisterExecutionCardio
 import com.apicela.training.ui.dialogs.RegisterExecutionDialog
 import com.apicela.training.ui.utils.ImageHelper
-import com.apicela.training.ui.utils.Timer
 import com.apicela.training.ui.utils.TimerImpl
 import com.google.android.material.imageview.ShapeableImageView
-import kotlinx.coroutines.runBlocking
 
 class ExecutionActivity : AppCompatActivity() {
 
@@ -39,6 +27,7 @@ class ExecutionActivity : AppCompatActivity() {
     private lateinit var recyclerViewExecutions: RecyclerView // Add this line
     private lateinit var plusButton: ImageButton
     private lateinit var backButton: Button
+    private lateinit var statsButton: ImageButton
     private lateinit var edit: Button
     private lateinit var nameText: TextView
     private lateinit var imageExercise: ShapeableImageView
@@ -73,7 +62,11 @@ class ExecutionActivity : AppCompatActivity() {
 
     private fun setUpOnClick() {
         plusButton.setOnClickListener {
-            val dialog = if(metric.equals("CARGA")) RegisterExecutionDialog(exerciseId, null, this) else RegisterExecutionCardio(exerciseId, null, this);
+            val dialog = if (metric.equals("CARGA")) RegisterExecutionDialog(
+                exerciseId,
+                null,
+                this
+            ) else RegisterExecutionCardio(exerciseId, null, this);
             dialog.show(supportFragmentManager, "RegistrarExercicioDialog");
             when (dialog) {
                 is RegisterExecutionDialog -> {
@@ -81,6 +74,7 @@ class ExecutionActivity : AppCompatActivity() {
                         executionAdapter.refreshData(exerciseId)
                     }
                 }
+
                 is RegisterExecutionCardio -> {
                     dialog.onDismissListener = {
                         executionAdapter.refreshData(exerciseId)
@@ -97,7 +91,13 @@ class ExecutionActivity : AppCompatActivity() {
             executionAdapter.setEditing(editMode)
             editMode = !editMode
         }
-        timerLayout.setOnClickListener{
+
+        statsButton.setOnClickListener {
+            val intent = Intent(this@ExecutionActivity, StatisticsActivity::class.java)
+            intent.putExtra("exercise_id", exerciseId)
+            this.startActivity(intent)
+        }
+        timerLayout.setOnClickListener {
             val dialog = EditTimerDialog()
             if (this is FragmentActivity) {
                 dialog.show(this.supportFragmentManager, "RegistrarExercicioDialog")
@@ -127,6 +127,7 @@ class ExecutionActivity : AppCompatActivity() {
         nameText = findViewById(R.id.name)
         imageExercise = findViewById(R.id.image)
         timerLayout = findViewById(R.id.timerLayout)
+        statsButton = findViewById(R.id.stats_button)
     }
 }
 

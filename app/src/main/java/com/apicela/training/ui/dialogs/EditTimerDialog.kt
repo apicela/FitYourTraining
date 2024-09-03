@@ -17,14 +17,15 @@ import com.apicela.training.R
 
 class EditTimerDialog() : DialogFragment() {
     var confirmed: Boolean = false
-    lateinit var myView : View
-    lateinit var editText : EditText
+    lateinit var myView: View
+    lateinit var editText: EditText
     lateinit var gridLayoutButtons: GridLayout
 
-    private fun changeEditTextValue(button : Button){
+    private fun changeEditTextValue(button: Button) {
         val buttonText = button.text.toString()
         editText.setText(buttonText)
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         val inflater = requireActivity().layoutInflater
@@ -76,9 +77,9 @@ class EditTimerDialog() : DialogFragment() {
 
     private fun setUpOnClick() {
         // grid layout buttons
-        for(i in 0 until gridLayoutButtons.childCount){
+        for (i in 0 until gridLayoutButtons.childCount) {
             val child = gridLayoutButtons.getChildAt(i);
-            if(child is Button) child.setOnClickListener { changeEditTextValue(it as Button) }
+            if (child is Button) child.setOnClickListener { changeEditTextValue(it as Button) }
         }
     }
 

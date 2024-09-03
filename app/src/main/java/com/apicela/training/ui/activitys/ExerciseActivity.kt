@@ -8,8 +8,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +31,7 @@ class ExerciseActivity : AppCompatActivity() {
     private lateinit var plusButton: ImageButton
     private lateinit var backButton: Button
     private lateinit var editButton: Button
-    private lateinit var searchView : SearchView
+    private lateinit var searchView: SearchView
     private val exerciseService: ExerciseService = ExerciseService()
     private var editMode = false;
     private var divisionId: String? = null
@@ -132,11 +132,12 @@ class ExerciseActivity : AppCompatActivity() {
         }
     }
 
-    public fun refreshExerciseAdapter(){
+    public fun refreshExerciseAdapter() {
         if (exerciseAdapter is ExerciseAdapterInterface) {
             (exerciseAdapter as ExerciseAdapterInterface).refreshData()
         }
     }
+
     override fun onResume() {
         super.onResume()
         if (exerciseAdapter is ExerciseAdapterInterface) {

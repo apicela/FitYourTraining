@@ -9,12 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="cinza">#f2f3f7</color>
     <color name="main_color">#FFCA09</color>
-
+    <color name="light_yellow">#FFF544</color>
     <color name="accent_color">#1E1E1E</color>
     <color name="main_background">#272626</color>
     <color name="super_light_black">#2F2E2E</color>
     <color name="very_light_black">#323131</color>
-
-    <!--    <color name="light_grey">#A5A5A5</color>-->
-    <!--    <color name="semi_grey">#CDCACA</color>-->
 </resources>

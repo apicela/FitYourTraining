@@ -59,6 +59,18 @@
         app:layout_constraintHeight_percent="0.85"
         app:layout_constraintTop_toBottomOf="@+id/backLinearLayout" />
 
+    <ImageButton
+        android:id="@+id/stats_button"
+        android:layout_width="55dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_graph"
+        android:tint="@color/main_color"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewExecutions"
+        app:layout_constraintEnd_toStartOf="@id/timerLayout"
+        app:layout_constraintBottom_toTopOf="@id/exerciseOptions"
+        android:paddingRight="20dp"
+        ></ImageButton>
     <!-- Novo layout centralizado -->
     <LinearLayout
         android:id="@+id/timerLayout"

@@ -65,7 +65,7 @@ class ExecutionAdapter(
         val textViewWeight = executionView.findViewById<TextView>(R.id.textViewWeight)
         val imageViewMinus = executionView.findViewById<ImageView>(R.id.imageViewMinus)
         val imageViewEdit = executionView.findViewById<ImageView>(R.id.imageViewEdit)
-        if(execution.isCardio) textViewRepetitions.text = "${execution.repetitions} minutos"
+        if (execution.isCardio) textViewRepetitions.text = "${execution.repetitions} minutos"
         else {
             textViewWeight.text = "${execution.kg} kg x "
             textViewRepetitions.text = "${execution.repetitions}  reps"

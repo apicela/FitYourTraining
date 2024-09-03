@@ -4,13 +4,17 @@ import android.util.Log
 import com.apicela.training.data.Database
 import com.apicela.training.models.Division
 import com.apicela.training.models.Exercise
+import com.apicela.training.models.extra.ExecutionInfo
+import com.apicela.training.models.extra.Info
 import com.apicela.training.ui.activitys.HomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 
-class ExerciseService() {
-    private val db: Database = HomeActivity.DATABASE
+class ExerciseService(private val db: Database = HomeActivity.DATABASE) {
     val divisionService = DivisionService()
 
 
@@ -22,7 +26,7 @@ class ExerciseService() {
         divisionService.updateDivisionObject(division)
     }
 
-    suspend fun updateExercise(exercise : Exercise){
+    suspend fun updateExercise(exercise: Exercise) {
         withContext(Dispatchers.IO) {
             db.exerciseDao().update(exercise)
         }
@@ -52,13 +56,13 @@ class ExerciseService() {
 
     suspend fun getExerciseById(id: String): Exercise {
         return withContext(Dispatchers.IO) {
-            db.exerciseDao().getExerciseById(id)
+            db.exerciseDao().getById(id)
         }
     }
 
     suspend fun getAllExercises(): List<Exercise> {
         return withContext(Dispatchers.IO) {
-            db.exerciseDao().getAllExercises()
+            db.exerciseDao().getAll()
         }
     }
 
@@ -68,7 +72,7 @@ class ExerciseService() {
         } else {
             val division = divisionService.getDivisionById(divisionId)
             division?.listOfExercises?.mapNotNull { exerciseId ->
-                db.exerciseDao().getExerciseById(exerciseId)
+                db.exerciseDao().getById(exerciseId)
             } ?: emptyList()
         }
         if (exerciseList.isNotEmpty()) {
@@ -82,9 +86,11 @@ class ExerciseService() {
     public suspend fun getExerciseListFromDivision(divisionId: String?): List<Exercise> {
         val division = getDivision(divisionId)
         return if (division != null && division.listOfExercises.isNotEmpty()) {
-            runBlocking{   division.listOfExercises.mapNotNull { id ->
-                db.exerciseDao().getExerciseById(id)
-            }}
+            runBlocking {
+                division.listOfExercises.mapNotNull { id ->
+                    db.exerciseDao().getById(id)
+                }
+            }
         } else listOf()
     }
 
@@ -94,12 +100,26 @@ class ExerciseService() {
         } else null
     }
 
-//    fun addExerciseToDivision(exerciseName: String, image: String, muscleType: Muscle) {
-//        val exerciseItem = Exercise(exerciseName, image, muscleType)
-//        val lista = DataManager.loadExerciseItems()
-//        lista.add(exerciseItem)
-//        DataManager.saveExerciseItems(lista)
-//        Log.d("Exercise", "Exercise added to workout")
-//    }
+    suspend fun getExerciseInfoPastMonths(exerciseId: String, monthsAgo: Int): List<ExecutionInfo> {
+        // Calcular a data em milissegundos referente a monthsAgo
+        val monthsAgoDate = LocalDate.now().minus(monthsAgo.toLong(), ChronoUnit.MONTHS)
+        val monthsAgoInMillis =
+            monthsAgoDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+        // Obter a lista de execuções do banco de dados
+        val executionsPastMonthAsExecutionRawList = withContext(Dispatchers.IO) {
+            db.executionDao().getExecutionsForPastMonths(exerciseId, monthsAgoInMillis)
+        }
+
+        // Agrupar por mês e mapear para o tipo ExecutionInfo
+        val list = executionsPastMonthAsExecutionRawList.groupBy { it.month }
+            .map { (monthYear, infos) ->
+                ExecutionInfo(
+                    month = monthYear,
+                    list = infos.map { Info(it.kg, it.repetitions) }
+                )
+            }
+        return list
+    }
 
 }

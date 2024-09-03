@@ -7,6 +7,7 @@
     android:background="@color/main_background"
     android:orientation="vertical"
     android:theme="@style/Theme.ApicelaTraining">
+
     <ImageView
         android:id="@+id/edit"
         android:layout_width="wrap_content"
@@ -15,16 +16,17 @@
         app:layout_constraintBottom_toBottomOf="@id/exerciseLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/exerciseLayout" />
+
     <LinearLayout
         android:id="@+id/exerciseLayout"
         android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginVertical="7dp"
-    android:orientation="horizontal"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/checkbox"
-    app:layout_constraintStart_toEndOf="@id/edit"
-    app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="7dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/checkbox"
+        app:layout_constraintStart_toEndOf="@id/edit"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/exercise_image"
