@@ -1,7 +1,6 @@
 package com.apicela.training.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,7 @@ class ExerciseAdapter(
     RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>(), ExerciseAdapterInterface {
     private var checkedItems = mutableListOf<Exercise>();
     private var isEditing = false;
-    private val originalExerciseMap : Map<String, List<Exercise>> = exerciseMap
+    private val originalExerciseMap: Map<String, List<Exercise>> = exerciseMap
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         val view =
             LayoutInflater.from(context).inflate(R.layout.cardview_exercise_layout, parent, false)
@@ -82,7 +81,7 @@ class ExerciseAdapter(
         }
     }
 
-     fun filterList(filter: String) {
+    fun filterList(filter: String) {
         exerciseMap = if (filter.isEmpty()) {
             originalExerciseMap
         } else {

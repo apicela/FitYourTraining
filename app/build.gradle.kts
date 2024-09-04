@@ -7,6 +7,10 @@ plugins {
 android {
     namespace = "com.apicela.training"
     compileSdk = 34
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
     kapt {
         generateStubs = true
     }
@@ -24,16 +28,41 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(project.findProperty("KEYSTORE_FILE") as String? ?: throw IllegalArgumentException("KEYSTORE_FILE property not set"))
+            storePassword = project.findProperty("KEYSTORE_PASSWORD") as String? ?: throw IllegalArgumentException("KEYSTORE_PASSWORD property not set")
+            keyAlias = project.findProperty("KEY_ALIAS") as String? ?: throw IllegalArgumentException("KEY_ALIAS property not set")
+            keyPassword = project.findProperty("KEY_PASSWORD") as String? ?: throw IllegalArgumentException("KEY_PASSWORD property not set")
+        }
+
+        getByName("debug") {
+            storeFile = file(project.findProperty("KEYSTORE_FILE") as String? ?: throw IllegalArgumentException("DEBUG_KEYSTORE_FILE property not set"))
+            storePassword = project.findProperty("KEYSTORE_PASSWORD") as String? ?: throw IllegalArgumentException("DEBUG_KEYSTORE_PASSWORD property not set")
+            keyAlias = project.findProperty("KEY_ALIAS") as String? ?: throw IllegalArgumentException("DEBUG_KEY_ALIAS property not set")
+            keyPassword = project.findProperty("KEY_PASSWORD") as String? ?: throw IllegalArgumentException("DEBUG_KEY_PASSWORD property not set")
+        }
+    }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            signingConfig = signingConfigs.getByName("release")
+        }
+
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+//    buildTypes {
+//        getByName("release") {
+//            isMinifyEnabled = false
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -66,10 +95,31 @@ android {
 
 dependencies {
     implementation("androidx.activity:activity:1.9.0")
+    implementation("androidx.test:core-ktx:1.6.1")
+    implementation("androidx.test.ext:junit-ktx:1.2.1")
     // navigation component
     val nav_version = "2.3.5"
+    val room_version = "2.6.1"
+
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    // graph
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+// Dependências de testes de instrumentação
+    androidTestImplementation("androidx.test:runner:1.5.0")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    implementation("androidx.core:core-ktx:1.12.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("androidx.room:room-ktx:$room_version")
+    androidTestImplementation("com.github.javafaker:javafaker:1.0.2")
+    // Dependências de testes unitários
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
+    testImplementation("androidx.room:room-testing:$room_version")
+
 
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.core:core-ktx:1.9.0")
@@ -96,8 +146,8 @@ dependencies {
     kapt("com.github.bumptech.glide:compiler:4.16.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("androidx.room:room-runtime:2.4.0")
-    kapt("androidx.room:room-compiler:2.4.0")
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.appcompat:appcompat")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 }

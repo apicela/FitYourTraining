@@ -18,7 +18,7 @@ data class Exercise(
 ) :
     Serializable {
     @Ignore
-    constructor(exerciseName: String, image: String, muscleType: Muscle, metricType : Metrics) :
+    constructor(exerciseName: String, image: String, muscleType: Muscle, metricType: Metrics) :
             this(UUID.randomUUID().toString(), exerciseName, image, muscleType, metricType)
 
     companion object {
@@ -248,8 +248,10 @@ data class Exercise(
                 ),
 
                 // QUADRICEPS
-                Exercise(UUID.randomUUID().toString(), "AGACHAMENTO", "squat", Muscle.QUADRICEPS,
-                    Metrics.CARGA),
+                Exercise(
+                    UUID.randomUUID().toString(), "AGACHAMENTO", "squat", Muscle.QUADRICEPS,
+                    Metrics.CARGA
+                ),
                 Exercise(
                     UUID.randomUUID().toString(),
                     "LEVANTAMENTO TERRA",
@@ -280,8 +282,10 @@ data class Exercise(
 
 
                 // HARMSTRING
-                Exercise(UUID.randomUUID().toString(), "STIFF", "stiff", Muscle.HAMSTRING,
-                    Metrics.CARGA),
+                Exercise(
+                    UUID.randomUUID().toString(), "STIFF", "stiff", Muscle.HAMSTRING,
+                    Metrics.CARGA
+                ),
                 Exercise(
                     UUID.randomUUID().toString(),
                     "MESA FLEXORA",
@@ -329,9 +333,27 @@ data class Exercise(
 
 
                 // ABS
-                Exercise(UUID.randomUUID().toString(), "ABDOMINAL INFRA NA PARALELA", "https://i.pinimg.com/originals/89/8b/ef/898bef76a0ef24da097dcecaf9b1a063.gif", Muscle.ABDOMINAL, Metrics.CARDIO),
-                Exercise(UUID.randomUUID().toString(), "ABDOMINAL CRUNCH", "https://burnfit.io/wp-content/uploads/2023/11/CRUNCH.gif", Muscle.ABDOMINAL, Metrics.CARDIO),
-                Exercise(UUID.randomUUID().toString(), "PRANCHA", "plank", Muscle.ABDOMINAL, Metrics.CARDIO),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "ABDOMINAL INFRA NA PARALELA",
+                    "https://i.pinimg.com/originals/89/8b/ef/898bef76a0ef24da097dcecaf9b1a063.gif",
+                    Muscle.ABDOMINAL,
+                    Metrics.CARDIO
+                ),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "ABDOMINAL CRUNCH",
+                    "https://burnfit.io/wp-content/uploads/2023/11/CRUNCH.gif",
+                    Muscle.ABDOMINAL,
+                    Metrics.CARDIO
+                ),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "PRANCHA",
+                    "plank",
+                    Muscle.ABDOMINAL,
+                    Metrics.CARDIO
+                ),
                 Exercise(
                     "ABDOMINAL INFRA",
                     "https://www.mundoboaforma.com.br/wp-content/uploads/2021/04/abdominal-no-chao-com-elevacao-de-pernas-semi-dobradas.gif",
@@ -340,12 +362,48 @@ data class Exercise(
                 ),
 
                 // CARDIO
-                Exercise(UUID.randomUUID().toString(), "CORRIDA", "running", Muscle.CARDIO, Metrics.CARDIO),
-                Exercise(UUID.randomUUID().toString(), "BICICLETA", "bike", Muscle.CARDIO, Metrics.CARDIO),
-                Exercise(UUID.randomUUID().toString(), "ESCADA", "stairs", Muscle.CARDIO, Metrics.CARDIO),
-                Exercise(UUID.randomUUID().toString(), "NATAÇÃO", "swimming", Muscle.CARDIO, Metrics.CARDIO),
-                Exercise(UUID.randomUUID().toString(), "CORDA", "https://www.mundoboaforma.com.br/wp-content/uploads/2021/04/pular-corda.gif", Muscle.CARDIO, Metrics.CARDIO),
-                Exercise(UUID.randomUUID().toString(), "ARTES MARCIAIS", "fight", Muscle.CARDIO, Metrics.CARDIO),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "CORRIDA",
+                    "running",
+                    Muscle.CARDIO,
+                    Metrics.CARDIO
+                ),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "BICICLETA",
+                    "bike",
+                    Muscle.CARDIO,
+                    Metrics.CARDIO
+                ),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "ESCADA",
+                    "stairs",
+                    Muscle.CARDIO,
+                    Metrics.CARDIO
+                ),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "NATAÇÃO",
+                    "swimming",
+                    Muscle.CARDIO,
+                    Metrics.CARDIO
+                ),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "CORDA",
+                    "https://www.mundoboaforma.com.br/wp-content/uploads/2021/04/pular-corda.gif",
+                    Muscle.CARDIO,
+                    Metrics.CARDIO
+                ),
+                Exercise(
+                    UUID.randomUUID().toString(),
+                    "ARTES MARCIAIS",
+                    "fight",
+                    Muscle.CARDIO,
+                    Metrics.CARDIO
+                ),
 
                 // OTHERS
             )

@@ -2,6 +2,7 @@ package com.apicela.training.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,9 @@ class DivisionAdapter(
         }
     } as MutableList<Division>
 
+    init{
+        Log.d("DivisionAdapter", "Division Adapter started")
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_division, parent, false)

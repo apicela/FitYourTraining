@@ -13,7 +13,12 @@
         android:icon="@drawable/ic_calendar"
         android:title="Calendario" />
     <item
+        android:id="@+id/statisticsActivity"
+        android:icon="@drawable/ic_graph"
+        android:title="Estatísticas" />
+    <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_profile"
         android:title="Eu" />
+
 </menu>

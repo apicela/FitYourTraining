@@ -1,7 +1,6 @@
 package com.apicela.training.ui.utils
 
 import android.content.Context
-import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,7 @@ class TimerImpl(private val context: Context, private val container: ViewGroup) 
     private val timer: Timer = Timer.getInstance(context)
 
     init {
-        if(!timer.counting) textViewTimer.text = Apicela.REST_TIMING
+        if (!timer.counting) textViewTimer.text = Apicela.REST_TIMING
         toggleIcon()
         timer.onTickCallback = { seconds ->
             textViewTimer.text = String.format("%02d:%02d", seconds / 60, seconds % 60)
@@ -36,8 +35,8 @@ class TimerImpl(private val context: Context, private val container: ViewGroup) 
         }
     }
 
-    fun refreshTimeValue(){
-        if(!timer.counting) textViewTimer.text = Apicela.REST_TIMING
+    fun refreshTimeValue() {
+        if (!timer.counting) textViewTimer.text = Apicela.REST_TIMING
     }
 
     fun toggle() {

@@ -9,8 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DivisionService() {
-    private val db: Database = HomeActivity.DATABASE
+class DivisionService(private val db: Database = HomeActivity.DATABASE) {
     fun createDivision(workoutId: String, divisionName: String, image: String?): Division {
         val division = Division(workoutId, divisionName, image ?: "", listOf())
         CoroutineScope(Dispatchers.IO).launch {
@@ -19,7 +18,7 @@ class DivisionService() {
         return division
     }
 
-    suspend fun updateListOfExercises(divisionId: String, listOfExercises: List<Exercise>) {
+    suspend fun updateListOfExercises(divisionId: String, listOfExercises: List<String>) {
         withContext(Dispatchers.IO) {
             db.divisionDao().updateListOfExercises(divisionId, listOfExercises)
         }
@@ -34,7 +33,7 @@ class DivisionService() {
 
     fun addDivisionToWorkout(divisionId: String, workout_id: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            var workout = db.workoutDao().getWorkoutById(workout_id)
+            var workout = db.workoutDao().getById(workout_id)
             workout?.listOfDivision = workout!!.listOfDivision + divisionId
             db.workoutDao().update(workout)
         }
@@ -42,7 +41,7 @@ class DivisionService() {
 
     suspend fun getDivisionById(id: String): Division? {
         return withContext(Dispatchers.IO) {
-            db.divisionDao().getDivisionById(id)
+            db.divisionDao().getById(id)
         }
     }
 

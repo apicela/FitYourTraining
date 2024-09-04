@@ -14,7 +14,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+gradle.properties
 app/build
 app/debug
+app/release
 .idea/*
 .CustomCalendarView

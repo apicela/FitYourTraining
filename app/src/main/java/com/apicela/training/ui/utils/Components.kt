@@ -6,6 +6,7 @@ import android.content.Context
 import android.widget.EditText
 import android.widget.TextView
 import com.apicela.training.R
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
@@ -13,6 +14,12 @@ import java.util.TimeZone
 
 class Components {
     companion object {
+
+        fun createDateByString(dateString: String): Date {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+            val date: Date = dateFormat.parse(dateString)
+            return date;
+        }
 
         fun showDatePicker(dateTimeText: EditText, context: Context) {
             val calendar = Calendar.getInstance()

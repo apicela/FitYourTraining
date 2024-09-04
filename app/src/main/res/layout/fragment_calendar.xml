@@ -11,8 +11,7 @@
     <LinearLayout
         android:id="@+id/layoutCalendar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <com.apicela.training.ui.utils.CustomCalendarView
             android:id="@+id/calendarView"
@@ -31,6 +30,6 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="8dp"/>
+            android:paddingHorizontal="8dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

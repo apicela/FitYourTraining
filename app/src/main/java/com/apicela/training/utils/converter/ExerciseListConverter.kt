@@ -16,4 +16,9 @@ class ExerciseListConverter {
     fun fromList(list: List<Exercise>): String {
         return Gson().toJson(list)
     }
+
+    @TypeConverter
+    fun fromGenericList(list: List<Any>): String { // Renamed method
+        return Gson().toJson(list)
+    }
 }

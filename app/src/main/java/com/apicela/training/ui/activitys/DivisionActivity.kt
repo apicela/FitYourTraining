@@ -57,15 +57,19 @@ class DivisionActivity : AppCompatActivity() {
     }
 
     private fun initializeVariables() {
+        Log.d("DivisionActivity", "before initialize")
         workoutId = intent.getStringExtra("workout_id")
         val workoutDescription =
             runBlocking { workoutService.getWorkoutById(workoutId!!).description }
         descriptionText.text = workoutDescription
+        Log.d("DivisionActivity", "after initialize")
 
     }
 
     private fun setUpRecyclerView() {
+        Log.d("DivisionActivity", "before setupRecycler")
         adapter = DivisionAdapter(this, workoutId!!)
+        Log.d("DivisionActivity", "after setupRecycler")
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
     }

@@ -16,6 +16,11 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <activity
+        android:id="@+id/statisticsActivity"
+        android:name="com.apicela.training.ui.activitys.StatisticsActivity"
+        android:label="statistics_activity"
+        tools:layout="@layout/activity_statistics" />
+    <activity
         android:id="@+id/exercisesActivity"
         android:name="com.apicela.training.ui.activitys.ExerciseActivity"
         android:label="calendar_activity"

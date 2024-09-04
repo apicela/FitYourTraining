@@ -9,17 +9,17 @@ import com.apicela.training.models.Workout
 @Dao
 interface WorkoutDao {
     @Query("SELECT * FROM workout")
-    fun getAllWorkouts(): List<Workout>
+    suspend fun getAll(): List<Workout>
 
     @Query("SELECT * FROM workout WHERE id = :workoutId")
-    fun getWorkoutById(workoutId: String): Workout
+    suspend fun getById(workoutId: String): Workout
 
     @Insert
-    fun insert(workout: Workout)
+    suspend fun insert(workout: Workout)
 
     @Query("DELETE FROM workout WHERE id = :id")
-    fun deleteById(id: String)
+    suspend fun deleteById(id: String)
 
     @Update
-    fun update(workout: Workout)
+    suspend fun update(workout: Workout)
 }
